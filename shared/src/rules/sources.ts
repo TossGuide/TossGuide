@@ -22,7 +22,8 @@ export const SOURCES: Record<string, Source> = {
   },
   edm_curbside: {
     id: 'edm_curbside',
-    title: 'City of Edmonton: Curbside Collection (green food scraps cart, black garbage cart, blue bags)',
+    title:
+      'City of Edmonton: Curbside Collection (green food scraps cart, black garbage cart, blue bags)',
     url: 'https://www.edmonton.ca/programs_services/garbage_waste/curbside-cart-collection',
     accessed: ACCESSED,
   },

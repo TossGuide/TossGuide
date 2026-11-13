@@ -42,7 +42,8 @@ function listImages(dir: string): { label: string; path: string }[] {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) {
-      for (const f of readdirSync(p)) if (/\.(jpe?g|png|webp)$/i.test(f)) out.push({ label: name, path: join(p, f) });
+      for (const f of readdirSync(p))
+        if (/\.(jpe?g|png|webp)$/i.test(f)) out.push({ label: name, path: join(p, f) });
     } else if (/\.(jpe?g|png|webp)$/i.test(name)) {
       out.push({ label: basename(name, extname(name)), path: p });
     }
@@ -69,10 +70,15 @@ async function main() {
     const tokenizer = await AutoTokenizer.from_pretrained(c.id);
     const textModel = await CLIPTextModelWithProjection.from_pretrained(c.id, { dtype: c.dtype });
     const processor = await AutoProcessor.from_pretrained(c.id);
-    const visionModel = await CLIPVisionModelWithProjection.from_pretrained(c.id, { dtype: c.dtype });
+    const visionModel = await CLIPVisionModelWithProjection.from_pretrained(c.id, {
+      dtype: c.dtype,
+    });
     const loadMs = performance.now() - t0;
 
-    const tok = tokenizer(prompts.map((p) => p.text), { padding: 'max_length', truncation: true });
+    const tok = tokenizer(
+      prompts.map((p) => p.text),
+      { padding: 'max_length', truncation: true },
+    );
     const { text_embeds } = await textModel(tok);
     const dim = text_embeds.dims[1] as number;
     const textData = text_embeds.data as Float32Array;
@@ -105,7 +111,12 @@ async function main() {
       const rank = ranked.findIndex(([id]) => id === im.label);
       if (rank === 0) top1++;
       if (rank >= 0 && rank < 3) top3++;
-      rows.push(`  ${im.label.padEnd(16)} -> ${ranked.slice(0, 3).map(([id]) => id).join(', ')}${rank === 0 ? '' : '   ✗'}`);
+      rows.push(
+        `  ${im.label.padEnd(16)} -> ${ranked
+          .slice(0, 3)
+          .map(([id]) => id)
+          .join(', ')}${rank === 0 ? '' : '   ✗'}`,
+      );
     }
     const med = times.sort((a, b) => a - b)[Math.floor(times.length / 2)]!;
     console.log(`=== ${c.id} (${c.dtype}, ${c.visionFile})`);

@@ -17,5 +17,7 @@ console.log('| Item | Edmonton home | UofA campus |');
 console.log('|---|---|---|');
 for (const it of ITEMS) {
   const r = RULES[it.id]!;
-  console.log(`| ${it.name} (\`${it.id}\`) | ${show(r['edmonton-residential'])} | ${show(r['uofa-campus'])} |`);
+  console.log(
+    `| ${it.name} (\`${it.id}\`) | ${show(r['edmonton-residential'])} | ${show(r['uofa-campus'])} |`,
+  );
 }

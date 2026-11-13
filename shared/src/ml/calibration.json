@@ -1,0 +1,7 @@
+{
+  "_comment": "Written by `npm run eval`. Placeholder values until the first eval on venue photos.",
+  "threshold": 0.5,
+  "temperature": 1,
+  "method": "max",
+  "source": "placeholder (no eval yet)"
+}
