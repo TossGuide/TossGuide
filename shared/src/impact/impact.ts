@@ -8,7 +8,7 @@
  * understates impact, which is the honest direction for an estimate.
  */
 import { DESTINATIONS } from '../rules/destinations';
-import { ITEMS_BY_ID } from '../rules/items';
+import { getItem } from '../rules/items';
 import type { DestinationId, Material } from '../rules/types';
 
 /** kg CO2e saved per kg diverted (WARM v16, see RESEARCH.md §6). */
@@ -48,7 +48,7 @@ export function impactOf(
   itemId: string,
   destinationId: DestinationId,
 ): { diverted: boolean; co2eKg: number } {
-  const item = ITEMS_BY_ID.get(itemId);
+  const item = getItem(itemId);
   const dest = Object.prototype.hasOwnProperty.call(DESTINATIONS, destinationId)
     ? DESTINATIONS[destinationId]
     : undefined;

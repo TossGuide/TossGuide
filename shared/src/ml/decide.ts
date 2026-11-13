@@ -11,7 +11,7 @@
  * The threshold is chosen from the eval set's threshold sweep (eval/REPORT.md).
  */
 import { possibleDestinations } from '../rules/engine';
-import { ITEMS_BY_ID } from '../rules/items';
+import { getItem } from '../rules/items';
 import type { Context } from '../rules/types';
 import type { Candidate } from './aggregate';
 import calibration from './calibration.json';
@@ -39,7 +39,7 @@ export function decide(
 ): Decision {
   const threshold = opts.threshold ?? DEFAULT_THRESHOLD;
   const valid = (Array.isArray(candidates) ? candidates : [])
-    .filter((c) => c && ITEMS_BY_ID.has(c.itemId) && Number.isFinite(c.score))
+    .filter((c) => c && getItem(c.itemId) && Number.isFinite(c.score))
     .sort((a, b) => b.score - a.score);
 
   if (valid.length === 0) return { kind: 'confirm', reason: 'no_candidates', candidates: [] };

@@ -598,5 +598,15 @@ export const ITEMS: readonly ItemType[] = [
   },
 ];
 
-/** Lookup by id; undefined for unknown ids (callers must handle that). */
-export const ITEMS_BY_ID: ReadonlyMap<string, ItemType> = new Map(ITEMS.map((i) => [i.id, i]));
+/**
+ * Lookup by id. A frozen object with NO prototype, so `ITEMS_BY_ID['toString']`
+ * is undefined rather than a built-in function.
+ */
+export const ITEMS_BY_ID: Readonly<Record<string, ItemType>> = Object.freeze(
+  Object.assign(Object.create(null) as Record<string, ItemType>, Object.fromEntries(ITEMS.map((i) => [i.id, i]))),
+);
+
+/** Safe lookup for any runtime value; undefined for unknown ids or non-strings. */
+export function getItem(id: unknown): ItemType | undefined {
+  return typeof id === 'string' ? ITEMS_BY_ID[id] : undefined;
+}

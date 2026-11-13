@@ -5,7 +5,7 @@
  * it's easy to unit test. It never throws on bad input: callers get { ok: false }.
  */
 import { DESTINATIONS, QUESTIONS } from './destinations';
-import { ITEMS, ITEMS_BY_ID } from './items';
+import { ITEMS, getItem } from './items';
 import { RULES } from './rules';
 import { SOURCES } from './sources';
 import {
@@ -54,7 +54,7 @@ export function resolve(itemId: string, context: Context, answers?: Answers): Re
     };
   }
   const id = typeof itemId === 'string' ? itemId.trim() : '';
-  const item = ITEMS_BY_ID.get(id);
+  const item = getItem(id);
   const rule = item ? ruleFor(id, context) : undefined;
   if (!item || !rule) {
     return {
