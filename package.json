@@ -1,0 +1,44 @@
+{
+  "name": "binsight",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Point. Sort. Done. Which Edmonton bin does it go in, and why.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "shared",
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm -w server run dev\" \"npm -w client run dev\"",
+    "build": "npm -w client run build && npm -w server run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "eval": "tsx eval/run-eval.ts",
+    "embed": "tsx eval/build-text-embeddings.ts",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "tsc -p shared && tsc -p client --noEmit && tsc -p server --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@vitest/coverage-v8": "^3.2.7",
+    "concurrently": "^10.0.7",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^3.2.7"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "zod": "^4.6.7"
+  }
+}
