@@ -15,6 +15,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
+import { impactOf } from '@binsight/shared/impact/impact';
+import type { DestinationId } from '@binsight/shared/rules/types';
 
 export const StoredScan = z.object({
   faculty: z.string().max(100),
@@ -24,6 +26,34 @@ export const StoredScan = z.object({
   ts: z.number().finite().nonnegative(),
 });
 export type StoredScan = z.infer<typeof StoredScan>;
+
+export interface FacultyTotals {
+  faculty: string;
+  itemsDiverted: number;
+  co2eKg: number;
+  scans: number;
+}
+
+/** Anything that can record a scan and report per-faculty totals (JSON file or Redis). */
+export interface LeaderboardStore {
+  add(scan: StoredScan): Promise<void>;
+  totals(): Promise<FacultyTotals[]>;
+}
+
+/** Per-faculty totals from raw scans. CO2e comes from the shared, cited impact module. */
+export function totalsFromScans(scans: readonly StoredScan[]): FacultyTotals[] {
+  const rows = new Map<string, FacultyTotals>();
+  for (const s of scans) {
+    const row = rows.get(s.faculty) ?? { faculty: s.faculty, itemsDiverted: 0, co2eKg: 0, scans: 0 };
+    row.scans++;
+    if (s.diverted) {
+      row.itemsDiverted++;
+      row.co2eKg += impactOf(s.itemId, s.destination as DestinationId).co2eKg;
+    }
+    rows.set(s.faculty, row);
+  }
+  return [...rows.values()];
+}
 
 export class ScanStore {
   private scans: StoredScan[];

@@ -18,9 +18,8 @@ import { DESTINATIONS } from '@binsight/shared/rules/destinations';
 import { possibleDestinations } from '@binsight/shared/rules/engine';
 import { getItem } from '@binsight/shared/rules/items';
 import { CONTEXTS, type DestinationId } from '@binsight/shared/rules/types';
-import { impactOf } from '@binsight/shared/impact/impact';
 import { createRateLimiter, type RateLimitOptions } from './rate-limit';
-import { ScanStore } from './store';
+import { ScanStore, totalsFromScans, type LeaderboardStore } from './store';
 
 export interface AppOptions {
   dataFile: string;
@@ -28,6 +27,10 @@ export interface AppOptions {
   logger?: (msg: string) => void;
   /** Serve the built client (client/dist) from the same origin, for `npm start`. */
   staticDir?: string;
+  /** Where scans go. Default: the JSON file at dataFile. On Vercel: Redis (redis-store.ts). */
+  store?: LeaderboardStore;
+  /** Express "trust proxy" (which X-Forwarded-For hops to trust for the client IP). */
+  trustProxy?: boolean | string;
 }
 
 const DESTINATION_IDS = Object.keys(DESTINATIONS) as [DestinationId, ...DestinationId[]];
@@ -47,12 +50,12 @@ const reachable = (itemId: string) => new Set(CONTEXTS.flatMap((c) => possibleDe
 
 export function createApp(opts: AppOptions) {
   const log = opts.logger ?? ((m: string) => console.log(m));
-  const store = new ScanStore(opts.dataFile, log);
+  const store: LeaderboardStore = opts.store ?? fileStore(new ScanStore(opts.dataFile, log));
   const allow = createRateLimiter(opts.rateLimit ?? { windowMs: 60_000, max: 30 });
 
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 'loopback'); // the Vite dev proxy forwards from localhost
+  app.set('trust proxy', opts.trustProxy ?? 'loopback'); // the Vite dev proxy forwards from localhost
 
   // Access log: method, path, status, time. Never bodies, headers or env.
   app.use((req, res, next) => {
@@ -71,7 +74,7 @@ export function createApp(opts: AppOptions) {
     res.json({ ok: true });
   });
 
-  app.post('/api/scan', (req: Request, res) => {
+  app.post('/api/scan', async (req: Request, res) => {
     if (!allow(req.ip ?? 'unknown')) {
       res.status(429).json({ ok: false, error: 'rate_limited' });
       return;
@@ -92,22 +95,26 @@ export function createApp(opts: AppOptions) {
       res.status(400).json({ ok: false, error: 'diverted_flag_mismatch' });
       return;
     }
-    store.add({ faculty, itemId, destination, diverted: divertedFromLandfill, ts: Date.now() });
+    try {
+      await store.add({ faculty, itemId, destination, diverted: divertedFromLandfill, ts: Date.now() });
+    } catch {
+      log('store: add failed');
+      res.status(503).json({ ok: false, error: 'storage_unavailable' });
+      return;
+    }
     res.status(201).json({ ok: true });
   });
 
-  app.get('/api/leaderboard', (_req, res) => {
-    const rows = new Map<string, { faculty: string; itemsDiverted: number; co2eKg: number; scans: number }>();
-    for (const s of store.all()) {
-      const row = rows.get(s.faculty) ?? { faculty: s.faculty, itemsDiverted: 0, co2eKg: 0, scans: 0 };
-      row.scans++;
-      if (s.diverted) {
-        row.itemsDiverted++;
-        row.co2eKg += impactOf(s.itemId, s.destination as DestinationId).co2eKg;
-      }
-      rows.set(s.faculty, row);
+  app.get('/api/leaderboard', async (_req, res) => {
+    let rows;
+    try {
+      rows = await store.totals();
+    } catch {
+      log('store: read failed');
+      res.status(503).json({ ok: false, error: 'storage_unavailable' });
+      return;
     }
-    const faculties = [...rows.values()].sort(
+    const faculties = [...rows].sort(
       (a, b) => b.itemsDiverted - a.itemsDiverted || b.scans - a.scans || a.faculty.localeCompare(b.faculty),
     );
     res.json({ faculties });
@@ -141,4 +148,9 @@ export function createApp(opts: AppOptions) {
   app.use(onError);
 
   return app;
+}
+
+/** The JSON-file store, adapted to the LeaderboardStore interface. */
+function fileStore(file: ScanStore): LeaderboardStore {
+  return { add: async (s) => file.add(s), totals: async () => totalsFromScans(file.all()) };
 }
