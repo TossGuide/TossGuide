@@ -8,7 +8,6 @@ import {
   CONTEXTS,
   type Answers,
   type Context,
-  type QuestionId,
   type RuleNode,
 } from '../src/rules/types';
 

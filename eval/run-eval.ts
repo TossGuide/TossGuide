@@ -14,13 +14,13 @@
  */
 import { AutoProcessor, CLIPVisionModelWithProjection, RawImage, env } from '@huggingface/transformers';
 import sharp from 'sharp';
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { classifyEmbedding, type PromptBank } from '../shared/src/ml/classify-core';
 import { decide } from '../shared/src/ml/decide';
 import type { AggregateMethod, Candidate } from '../shared/src/ml/aggregate';
 import { MODEL_ID, VISION_DTYPE } from '../shared/src/ml/model-config';
-import { possibleDestinations } from '../shared/src/rules/engine';
+import { possibleDestinations, resolve } from '../shared/src/rules/engine';
 import { getItem } from '../shared/src/rules/items';
 import type { Context } from '../shared/src/rules/types';
 import bankJson from '../shared/src/ml/embeddings/prompts.json';
@@ -174,6 +174,18 @@ async function main() {
     cm[s.label] ??= {};
     cm[s.label]![ranked[0]!.itemId] = (cm[s.label]![ranked[0]!.itemId] ?? 0) + 1;
   }
+  // 3b) Bin-level confusion (true bin x predicted bin), compact enough for the About screen.
+  //     An item's "bin" is its default destination at home with no follow-up answers.
+  const binOf = (id: string) => {
+    const r = resolve(id, CONTEXT, {});
+    return r.ok && r.status === 'final' ? r.destination.shortName : r.ok ? 'asks first' : '?';
+  };
+  const binConfusion: Record<string, Record<string, number>> = {};
+  for (const { s, ranked } of best.preds) {
+    const t = binOf(s.label), pr = binOf(ranked[0]!.itemId);
+    binConfusion[t] ??= {};
+    binConfusion[t]![pr] = (binConfusion[t]![pr] ?? 0) + 1;
+  }
   const perItem = labels.map((l) => {
     const ps = best.preds.filter((p) => p.s.label === l);
     return {
@@ -209,6 +221,7 @@ async function main() {
     threshold: chosen.threshold,
     atThreshold: chosen,
     methodComparison: byMethod.map(({ method: m, top1, top3, bin }) => ({ method: m, top1, top3, bin })),
+    binConfusion,
     sweep: rows,
     perItem,
   };
