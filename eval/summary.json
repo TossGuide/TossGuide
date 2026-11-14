@@ -1,262 +1,400 @@
 {
-  "label": "SMOKE TEST (9 Wikimedia images, not venue photos)",
-  "generatedAt": "2026-11-13T21:20:42.250Z",
+  "label": "Wikimedia Commons dev set (object photos, not venue photos)",
+  "generatedAt": "2026-11-14T01:42:03.988Z",
   "model": "Xenova/clip-vit-base-patch32 (q8 vision encoder)",
   "context": "edmonton-residential",
-  "images": 9,
-  "items": 9,
-  "method": "mean",
+  "images": 93,
+  "items": 25,
+  "method": "logsumexp",
   "temperature": 1,
-  "top1": 0.7777777777777778,
-  "top3": 1,
-  "binAccuracy": 0.8888888888888888,
-  "medianLatencyMs": 113.11138500000015,
-  "threshold": 0.55,
+  "top1": 0.8279569892473119,
+  "top3": 0.9247311827956989,
+  "binAccuracy": 0.8924731182795699,
+  "medianLatencyMs": 90.67043299999932,
+  "threshold": 0.6,
   "atThreshold": {
-    "threshold": 0.55,
-    "autoAnswerRate": 0.4444444444444444,
-    "autoBinAccuracy": 1,
-    "confirmRate": 0.5555555555555556,
-    "pickerContainsTruth": 1,
-    "endToEnd": 1
+    "threshold": 0.6,
+    "autoAnswerRate": 0.3763440860215054,
+    "autoBinAccuracy": 0.9714285714285714,
+    "confirmRate": 0.6236559139784946,
+    "pickerContainsTruth": 0.9137931034482759,
+    "endToEnd": 0.9354838709677419
   },
   "methodComparison": [
     {
-      "method": "mean",
-      "top1": 0.7777777777777778,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "method": "logsumexp",
+      "top1": 0.8279569892473119,
+      "top3": 0.9247311827956989,
+      "bin": 0.8924731182795699
     },
     {
       "method": "max",
-      "top1": 0.6666666666666666,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "top1": 0.7956989247311828,
+      "top3": 0.9247311827956989,
+      "bin": 0.8494623655913979
     },
     {
-      "method": "logsumexp",
-      "top1": 0.6666666666666666,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "method": "mean",
+      "top1": 0.7419354838709677,
+      "top3": 0.9354838709677419,
+      "bin": 0.8494623655913979
     }
   ],
+  "binConfusion": {
+    "Blue bag": {
+      "Blue bag": 48,
+      "Bottle depot": 2,
+      "asks first": 1,
+      "Green cart": 1
+    },
+    "Eco Station": {
+      "Blue bag": 1,
+      "Eco Station": 7
+    },
+    "Green cart": {
+      "Green cart": 7,
+      "Black cart": 2
+    },
+    "Bottle depot": {
+      "Bottle depot": 12,
+      "Blue bag": 3
+    },
+    "Black cart": {
+      "Black cart": 5
+    },
+    "asks first": {
+      "asks first": 4
+    }
+  },
   "sweep": [
     {
       "threshold": 0.05,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.45161290322580644,
+      "autoBinAccuracy": 0.9285714285714286,
+      "confirmRate": 0.5483870967741935,
+      "pickerContainsTruth": 0.9411764705882353,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.1,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.45161290322580644,
+      "autoBinAccuracy": 0.9285714285714286,
+      "confirmRate": 0.5483870967741935,
+      "pickerContainsTruth": 0.9411764705882353,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.15,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.45161290322580644,
+      "autoBinAccuracy": 0.9285714285714286,
+      "confirmRate": 0.5483870967741935,
+      "pickerContainsTruth": 0.9411764705882353,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.2,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.45161290322580644,
+      "autoBinAccuracy": 0.9285714285714286,
+      "confirmRate": 0.5483870967741935,
+      "pickerContainsTruth": 0.9411764705882353,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.25,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.45161290322580644,
+      "autoBinAccuracy": 0.9285714285714286,
+      "confirmRate": 0.5483870967741935,
+      "pickerContainsTruth": 0.9411764705882353,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.3,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.44086021505376344,
+      "autoBinAccuracy": 0.926829268292683,
+      "confirmRate": 0.5591397849462365,
+      "pickerContainsTruth": 0.9423076923076923,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.35,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.43010752688172044,
+      "autoBinAccuracy": 0.925,
+      "confirmRate": 0.5698924731182796,
+      "pickerContainsTruth": 0.9245283018867925,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.4,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.41935483870967744,
+      "autoBinAccuracy": 0.9487179487179487,
+      "confirmRate": 0.5806451612903226,
+      "pickerContainsTruth": 0.9074074074074074,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.45,
-      "autoAnswerRate": 0.6666666666666666,
-      "autoBinAccuracy": 0.8333333333333334,
-      "confirmRate": 0.3333333333333333,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.41935483870967744,
+      "autoBinAccuracy": 0.9487179487179487,
+      "confirmRate": 0.5806451612903226,
+      "pickerContainsTruth": 0.9074074074074074,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.5,
-      "autoAnswerRate": 0.5555555555555556,
-      "autoBinAccuracy": 0.8,
-      "confirmRate": 0.4444444444444444,
-      "pickerContainsTruth": 1,
-      "endToEnd": 0.8888888888888888
+      "autoAnswerRate": 0.40860215053763443,
+      "autoBinAccuracy": 0.9473684210526315,
+      "confirmRate": 0.5913978494623656,
+      "pickerContainsTruth": 0.9090909090909091,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.55,
-      "autoAnswerRate": 0.4444444444444444,
-      "autoBinAccuracy": 1,
-      "confirmRate": 0.5555555555555556,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "autoAnswerRate": 0.3870967741935484,
+      "autoBinAccuracy": 0.9444444444444444,
+      "confirmRate": 0.6129032258064516,
+      "pickerContainsTruth": 0.9122807017543859,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.6,
-      "autoAnswerRate": 0.4444444444444444,
-      "autoBinAccuracy": 1,
-      "confirmRate": 0.5555555555555556,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "autoAnswerRate": 0.3763440860215054,
+      "autoBinAccuracy": 0.9714285714285714,
+      "confirmRate": 0.6236559139784946,
+      "pickerContainsTruth": 0.9137931034482759,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.65,
-      "autoAnswerRate": 0.4444444444444444,
-      "autoBinAccuracy": 1,
-      "confirmRate": 0.5555555555555556,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "autoAnswerRate": 0.3655913978494624,
+      "autoBinAccuracy": 0.9705882352941176,
+      "confirmRate": 0.6344086021505376,
+      "pickerContainsTruth": 0.9152542372881356,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.7,
-      "autoAnswerRate": 0.4444444444444444,
-      "autoBinAccuracy": 1,
-      "confirmRate": 0.5555555555555556,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "autoAnswerRate": 0.34408602150537637,
+      "autoBinAccuracy": 0.96875,
+      "confirmRate": 0.6559139784946236,
+      "pickerContainsTruth": 0.9180327868852459,
+      "endToEnd": 0.9354838709677419
     },
     {
       "threshold": 0.75,
-      "autoAnswerRate": 0.4444444444444444,
-      "autoBinAccuracy": 1,
-      "confirmRate": 0.5555555555555556,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "autoAnswerRate": 0.3333333333333333,
+      "autoBinAccuracy": 0.967741935483871,
+      "confirmRate": 0.6666666666666666,
+      "pickerContainsTruth": 0.9032258064516129,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.8,
-      "autoAnswerRate": 0.3333333333333333,
+      "autoAnswerRate": 0.3010752688172043,
       "autoBinAccuracy": 1,
-      "confirmRate": 0.6666666666666666,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "confirmRate": 0.6989247311827957,
+      "pickerContainsTruth": 0.8923076923076924,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.85,
-      "autoAnswerRate": 0.3333333333333333,
+      "autoAnswerRate": 0.26881720430107525,
       "autoBinAccuracy": 1,
-      "confirmRate": 0.6666666666666666,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "confirmRate": 0.7311827956989247,
+      "pickerContainsTruth": 0.8970588235294118,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.9,
-      "autoAnswerRate": 0.3333333333333333,
+      "autoAnswerRate": 0.20430107526881722,
       "autoBinAccuracy": 1,
-      "confirmRate": 0.6666666666666666,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "confirmRate": 0.7956989247311828,
+      "pickerContainsTruth": 0.9054054054054054,
+      "endToEnd": 0.9247311827956989
     },
     {
       "threshold": 0.95,
-      "autoAnswerRate": 0.1111111111111111,
+      "autoAnswerRate": 0.10752688172043011,
       "autoBinAccuracy": 1,
-      "confirmRate": 0.8888888888888888,
-      "pickerContainsTruth": 1,
-      "endToEnd": 1
+      "confirmRate": 0.8924731182795699,
+      "pickerContainsTruth": 0.9156626506024096,
+      "endToEnd": 0.9247311827956989
     }
   ],
   "perItem": [
     {
+      "itemId": "aluminum_foil",
+      "n": 4,
+      "top1": 0.5,
+      "bin": 0.75,
+      "medianMs": 92.18796599999996
+    },
+    {
       "itemId": "battery",
-      "n": 1,
-      "top1": 0,
-      "bin": 0,
-      "medianMs": 146.44227999999976
+      "n": 5,
+      "top1": 0.8,
+      "bin": 0.8,
+      "medianMs": 84.48990999999978
+    },
+    {
+      "itemId": "candy_wrapper",
+      "n": 4,
+      "top1": 0.75,
+      "bin": 1,
+      "medianMs": 97.06047000000035
+    },
+    {
+      "itemId": "cardboard_box",
+      "n": 5,
+      "top1": 0.8,
+      "bin": 0.8,
+      "medianMs": 92.13336400000026
     },
     {
       "itemId": "chip_bag",
-      "n": 1,
+      "n": 4,
       "top1": 1,
       "bin": 1,
-      "medianMs": 100.39044399999966
+      "medianMs": 87.70149800000036
     },
     {
       "itemId": "coffee_cup",
+      "n": 5,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 88.57902800000011
+    },
+    {
+      "itemId": "cold_cup",
+      "n": 5,
+      "top1": 0.6,
+      "bin": 0.8,
+      "medianMs": 86.49549400000069
+    },
+    {
+      "itemId": "egg_carton",
+      "n": 4,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 86.87021999999979
+    },
+    {
+      "itemId": "foam_container",
+      "n": 4,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 92.23370100000011
+    },
+    {
+      "itemId": "food_can",
+      "n": 2,
+      "top1": 0.5,
+      "bin": 0.5,
+      "medianMs": 89.60199700000067
+    },
+    {
+      "itemId": "food_scraps",
       "n": 1,
       "top1": 1,
       "bin": 1,
-      "medianMs": 106.18122700000004
+      "medianMs": 139.84222599999976
     },
     {
       "itemId": "fruit_peel",
-      "n": 1,
+      "n": 4,
       "top1": 1,
       "bin": 1,
-      "medianMs": 119.05206700000008
+      "medianMs": 92.12422299999889
+    },
+    {
+      "itemId": "glass_bottle",
+      "n": 5,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 89.39453400000093
     },
     {
       "itemId": "glass_jar",
-      "n": 1,
+      "n": 4,
       "top1": 1,
       "bin": 1,
-      "medianMs": 89.68616899999961
+      "medianMs": 89.92072399999961
+    },
+    {
+      "itemId": "juice_box",
+      "n": 1,
+      "top1": 0,
+      "bin": 0,
+      "medianMs": 90.81348099999923
+    },
+    {
+      "itemId": "milk_carton",
+      "n": 4,
+      "top1": 0.75,
+      "bin": 0.75,
+      "medianMs": 95.70374500000071
+    },
+    {
+      "itemId": "napkin",
+      "n": 4,
+      "top1": 0.5,
+      "bin": 0.5,
+      "medianMs": 90.67043299999932
+    },
+    {
+      "itemId": "paper",
+      "n": 4,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 93.72501000000011
+    },
+    {
+      "itemId": "pen",
+      "n": 5,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 93.74835900000107
+    },
+    {
+      "itemId": "phone",
+      "n": 3,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 92.47680600000058
     },
     {
       "itemId": "pizza_box",
-      "n": 1,
-      "top1": 1,
+      "n": 4,
+      "top1": 0.75,
       "bin": 1,
-      "medianMs": 88.752614
+      "medianMs": 91.33995200000027
     },
     {
       "itemId": "plastic_bag",
-      "n": 1,
-      "top1": 0,
+      "n": 4,
+      "top1": 0.75,
       "bin": 1,
-      "medianMs": 113.11138500000015
+      "medianMs": 91.79813600000125
     },
     {
       "itemId": "plastic_bottle",
       "n": 1,
       "top1": 1,
       "bin": 1,
-      "medianMs": 159.37661000000026
+      "medianMs": 117.92305399999896
+    },
+    {
+      "itemId": "plastic_takeout",
+      "n": 3,
+      "top1": 1,
+      "bin": 1,
+      "medianMs": 83.6545929999993
     },
     {
       "itemId": "pop_can",
-      "n": 1,
-      "top1": 1,
-      "bin": 1,
-      "medianMs": 113.15082099999972
+      "n": 4,
+      "top1": 0.5,
+      "bin": 0.75,
+      "medianMs": 95.58700500000123
     }
   ]
 }

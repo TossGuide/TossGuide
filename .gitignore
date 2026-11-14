@@ -25,3 +25,7 @@ playwright/.cache/
 # Generated fixture videos are large; regenerate with scripts/make-fixtures.sh
 tests/fixtures/*.y4m
 tests/fixtures/*.mjpeg
+
+# Python bytecode
+__pycache__/
+*.pyc

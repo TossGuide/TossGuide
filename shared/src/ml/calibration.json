@@ -1,7 +1,7 @@
 {
-  "_comment": "Written by `npm run eval`. Placeholder values until the first eval on venue photos.",
-  "threshold": 0.5,
+  "_comment": "Written by `npm run eval`. Do not hand-edit; re-run the eval instead.",
+  "threshold": 0.6,
   "temperature": 1,
-  "method": "max",
-  "source": "placeholder (no eval yet)"
+  "method": "logsumexp",
+  "source": "Wikimedia Commons dev set (object photos, not venue photos): 93 images, 2026-11-14T01:42:03.988Z"
 }

@@ -1,43 +1,69 @@
 {
-  "label": "SMOKE TEST (9 Wikimedia images, not venue photos)",
-  "generatedAt": "2026-11-13T21:20:42.250Z",
+  "label": "Wikimedia Commons dev set (object photos, not venue photos)",
+  "generatedAt": "2026-11-14T01:42:03.988Z",
   "model": "Xenova/clip-vit-base-patch32 (q8 vision encoder)",
   "context": "edmonton-residential",
-  "images": 9,
-  "items": 9,
-  "method": "mean",
+  "images": 93,
+  "items": 25,
+  "method": "logsumexp",
   "temperature": 1,
-  "top1": 0.7777777777777778,
-  "top3": 1,
-  "binAccuracy": 0.8888888888888888,
-  "medianLatencyMs": 113.11138500000015,
-  "threshold": 0.55,
+  "top1": 0.8279569892473119,
+  "top3": 0.9247311827956989,
+  "binAccuracy": 0.8924731182795699,
+  "medianLatencyMs": 90.67043299999932,
+  "threshold": 0.6,
   "atThreshold": {
-    "threshold": 0.55,
-    "autoAnswerRate": 0.4444444444444444,
-    "autoBinAccuracy": 1,
-    "confirmRate": 0.5555555555555556,
-    "pickerContainsTruth": 1,
-    "endToEnd": 1
+    "threshold": 0.6,
+    "autoAnswerRate": 0.3763440860215054,
+    "autoBinAccuracy": 0.9714285714285714,
+    "confirmRate": 0.6236559139784946,
+    "pickerContainsTruth": 0.9137931034482759,
+    "endToEnd": 0.9354838709677419
   },
   "methodComparison": [
     {
-      "method": "mean",
-      "top1": 0.7777777777777778,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "method": "logsumexp",
+      "top1": 0.8279569892473119,
+      "top3": 0.9247311827956989,
+      "bin": 0.8924731182795699
     },
     {
       "method": "max",
-      "top1": 0.6666666666666666,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "top1": 0.7956989247311828,
+      "top3": 0.9247311827956989,
+      "bin": 0.8494623655913979
     },
     {
-      "method": "logsumexp",
-      "top1": 0.6666666666666666,
-      "top3": 1,
-      "bin": 0.8888888888888888
+      "method": "mean",
+      "top1": 0.7419354838709677,
+      "top3": 0.9354838709677419,
+      "bin": 0.8494623655913979
     }
-  ]
+  ],
+  "binConfusion": {
+    "Blue bag": {
+      "Blue bag": 48,
+      "Bottle depot": 2,
+      "asks first": 1,
+      "Green cart": 1
+    },
+    "Eco Station": {
+      "Blue bag": 1,
+      "Eco Station": 7
+    },
+    "Green cart": {
+      "Green cart": 7,
+      "Black cart": 2
+    },
+    "Bottle depot": {
+      "Bottle depot": 12,
+      "Blue bag": 3
+    },
+    "Black cart": {
+      "Black cart": 5
+    },
+    "asks first": {
+      "asks first": 4
+    }
+  }
 }
