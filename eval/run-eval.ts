@@ -146,7 +146,7 @@ function sweep(preds: { s: Sample; ranked: Candidate[] }[]) {
 async function main() {
   const samples = await embedAll();
   if (samples.length === 0) {
-    console.error(`No labelled images found in ${DIR}/<itemId>/*.jpg. See PROGRESS.md "TEAM TODO".`);
+    console.error(`No labelled images found in ${DIR}/<itemId>/*.jpg. See eval/README.md.`);
     process.exit(1);
   }
   const labels = [...new Set(samples.map((s) => s.label))];

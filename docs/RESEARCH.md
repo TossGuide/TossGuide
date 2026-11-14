@@ -54,7 +54,7 @@ Special streams ([How to Recycle][uofa_how_to]): campus **battery bins** for alk
 
 **Campus ≠ home.** Because EPR doesn't cover institutions, campus still sends coffee cups, lids, chip bags, wrappers and foam to **Landfill**, while the same items go in the **blue bag** at home. TrashifyYEG's context toggle shows this live.
 
-**TODO (team):** the cheat sheet is dated 2021. Photograph the actual Zero Waste Station labels in DICE / CCIS to confirm they match, and note any differences in PROGRESS.md.
+**Note:** the cheat sheet is dated 2021. The actual Zero Waste Station labels in DICE / CCIS may differ.
 
 ## 4. Rules table (generated from code: `npx tsx eval/gen-rules-table.ts`)
 ⚠️ *uncertain* = official guidance doesn't clearly cover this item. The app shows "Check before you toss" with a link to WasteWise or UofA Zero Waste, and never gives a confident guess.
@@ -156,7 +156,7 @@ Saving = landfilling − recycling (or composting). kg CO2e per kg = MTCO2E per 
 - WARM is US-grid based, so for Alberta it's an estimate. The UI labels it "estimate" and links here.
 - The [EPA GHG Emission Factors Hub 2025, Table 9](https://www.epa.gov/system/files/documents/2025-01/ghg-emission-factors-hub-2025.pdf) gives scope-3 "waste generated" factors that **exclude** avoided emissions, so it isn't suitable for a "saved" number. We noted it and didn't use it.
 
-**Item weights:** the only cited value we found is the average aluminum can, **12.97 g** (Aluminum Association and Can Manufacturers Institute, via [AL Circle](https://www.alcircle.com/news/aluminum-can-maintains-position-as-most-sustainable-beverage-container-24961)). Other weights are `null` until the **team weighs the demo props with a kitchen scale** (TODO in PROGRESS.md). Until then those items count toward "items diverted" but add 0 g to the CO2e figure. We don't invent weights.
+**Item weights:** the only cited value we found is the average aluminum can, **12.97 g** (Aluminum Association and Can Manufacturers Institute, via [AL Circle](https://www.alcircle.com/news/aluminum-can-maintains-position-as-most-sustainable-beverage-container-24961)). Other weights are `null` until they are measured. Until then those items count toward "items diverted" but add 0 g to the CO2e figure. We don't invent weights.
 
 ## 7. Optional cloud fallback
 Not required: the app works fully on-device. If we have time, `POST /api/fallback` can proxy a vision-capable LLM API with a free tier. The key lives only in server `.env`, the route is disabled when the key is empty, and users see a one-time notice before any photo leaves the device. Not researched further: it isn't on the critical path.

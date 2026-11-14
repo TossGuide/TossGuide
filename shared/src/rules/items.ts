@@ -8,7 +8,7 @@ import type { ItemType } from './types';
  * the classifier aggregates scores across an item's prompts (see shared/src/ml/aggregate.ts).
  *
  * Weights: only filled in when we have a cited or measured value. The team weighs
- * the demo props at the venue (see PROGRESS.md); until then weightG is null and the
+ * the demo props; until then weightG is null and the
  * item adds 0 g to the CO2e estimate (it still counts as an item diverted).
  */
 export const ITEMS: readonly ItemType[] = [
