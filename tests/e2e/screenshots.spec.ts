@@ -1,5 +1,5 @@
 /**
- * @real-model Devpost screenshots, saved to docs/screenshots/<viewport>-<screen>.png.
+ * @real-model screenshots for the README, saved to docs/screenshots/mobile-<screen>.png.
  * Uses the real model and real fixture photos, so every number on screen is genuine.
  */
 import { test, expect, type Page } from '@playwright/test';
@@ -17,6 +17,7 @@ async function upload(page: Page, file: string) {
 }
 
 test('@real-model screenshots for Devpost', async ({ page }, info) => {
+  test.skip(info.project.name !== 'mobile', 'the README uses the phone screenshots');
   const p = info.project.name;
   await page.goto('/');
   await waitModelReady(page);

@@ -15,7 +15,7 @@ npm run eval -- --dir <dir> --no-calibrate                                   # r
 
 | Set | What | Status |
 |---|---|---|
-| `eval/images/<itemId>/*.jpg` | **Venue set**: ~5 photos each of ~15–20 items, taken by the team at the venue (no faces). | **TODO (team)**, see PROGRESS.md |
+| `eval/images/<itemId>/*.jpg` | **Venue set**: ~5 photos each of ~15–20 items, taken by the team at the venue (no faces). | Not collected yet |
 | `eval/dev-commons/<itemId>/*.jpg` | **Dev set**: 93 freely licensed object photos of 25 items from Wikimedia Commons, fetched by `eval/scripts/fetch-commons-devset.py` and reviewed by hand on contact sheets (71 off-topic photos, duplicates or photos showing people deleted). Credits and licences: `dev-commons/CREDITS.md`. | Used for the current numbers |
 
 The dev set is **not** the venue test. Web photos are cleaner (studio shots, product photos) in some

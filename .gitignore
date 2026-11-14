@@ -30,3 +30,6 @@ tests/fixtures/*.mjpeg
 __pycache__/
 *.pyc
 .vercel/
+
+# Local editor / tool settings
+.claude/
