@@ -19,7 +19,8 @@ export const ITEMS: readonly ItemType[] = [
     prompts: [
       'a photo of an aluminum pop can',
       'a photo of a soda can',
-      'a photo of an aluminum beverage can held in a hand',
+      'a photo of an empty crushed aluminum can',
+      'a photo of a can of pop on a table',
     ],
     aliases: [
       'can',
@@ -43,6 +44,7 @@ export const ITEMS: readonly ItemType[] = [
       'a photo of a plastic water bottle',
       'a photo of a plastic pop bottle',
       'a photo of a clear plastic drink bottle with a cap',
+      'a photo of an empty plastic bottle lying on its side',
     ],
     aliases: [
       'water bottle',
@@ -70,7 +72,11 @@ export const ITEMS: readonly ItemType[] = [
   {
     id: 'juice_box',
     name: 'Juice box',
-    prompts: ['a photo of a juice box with a straw', 'a photo of a small drink carton juice box'],
+    prompts: [
+      'a photo of a juice box with a straw',
+      'a photo of a small drink carton juice box',
+      'a photo of a rectangular drink carton',
+    ],
     aliases: ['juice box', 'tetra pak', 'tetrapak', 'drink box'],
     material: 'carton',
     weightG: null,
@@ -382,6 +388,7 @@ export const ITEMS: readonly ItemType[] = [
       'a photo of a used paper napkin',
       'a photo of a crumpled paper towel',
       'a photo of a dirty napkin',
+      'a photo of a folded white paper napkin',
     ],
     aliases: ['napkin', 'serviette', 'paper towel', 'used napkin'],
     material: 'food',
@@ -501,7 +508,12 @@ export const ITEMS: readonly ItemType[] = [
   {
     id: 'battery',
     name: 'Battery',
-    prompts: ['a photo of AA batteries', 'a photo of a battery', 'a photo of a coin cell battery'],
+    prompts: [
+      'a photo of AA batteries',
+      'a photo of a coin cell battery',
+      'a photo of a cylindrical alkaline battery',
+      'a photo of a rechargeable lithium-ion battery cell',
+    ],
     aliases: [
       'battery',
       'batteries',
@@ -603,7 +615,10 @@ export const ITEMS: readonly ItemType[] = [
  * is undefined rather than a built-in function.
  */
 export const ITEMS_BY_ID: Readonly<Record<string, ItemType>> = Object.freeze(
-  Object.assign(Object.create(null) as Record<string, ItemType>, Object.fromEntries(ITEMS.map((i) => [i.id, i]))),
+  Object.assign(
+    Object.create(null) as Record<string, ItemType>,
+    Object.fromEntries(ITEMS.map((i) => [i.id, i])),
+  ),
 );
 
 /** Safe lookup for any runtime value; undefined for unknown ids or non-strings. */
