@@ -82,6 +82,6 @@ FACULTIES: readonly string[]   // exported from @trashifyyeg/shared/faculties
 - `GET /api/health` → `200 { ok: true }`
 - `POST /api/scan` body `{ faculty: string (one of FACULTIES), itemId: string (known id), destination: DestinationId, divertedFromLandfill: boolean }` → `201 { ok: true }`. Invalid body → `400 { ok: false, error }`. Over rate limit (per IP) → `429`.
 - `GET /api/leaderboard` → `200 { faculties: { faculty: string; itemsDiverted: number; co2eKg: number; scans: number }[] }`, sorted by `itemsDiverted` desc. Starts **empty** (`[]`), with no seed data.
-- Storage is a JSON file at `dataFile`. A missing or corrupted file → treated as empty (don't crash), and the server keeps working.
+- Storage is PostgreSQL when `DATABASE_URL` is set, otherwise a JSON file at `dataFile`. A missing or corrupted JSON file → treated as empty (don't crash), and the server keeps working.
 - Responses and logs never contain environment secrets (e.g. `FALLBACK_API_KEY`).
 - Tests use `supertest` against `createApp(...)`.
