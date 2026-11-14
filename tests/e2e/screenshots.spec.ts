@@ -21,7 +21,7 @@ test('@real-model screenshots for Devpost', async ({ page }, info) => {
   await page.goto('/');
   await waitModelReady(page);
   await page.getByRole('button', { name: 'Impact', exact: true }).click();
-  await page.getByLabel('Your scans count for').selectOption('Engineering');
+  await page.getByLabel('Your faculty').selectOption('Engineering');
   await page.getByRole('button', { name: 'Scan', exact: true }).click();
   await expect(page.locator('.frame-guide')).toBeVisible();
   await shot(page, '1-scan', p);

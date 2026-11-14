@@ -4,7 +4,7 @@ import type { Destination } from '@tossguide/shared/rules/types';
 const svg = (body: string, size = 24) =>
   `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${body}</svg>`;
 
-export const ICONS: Record<Destination['icon'] | 'camera' | 'upload' | 'keyboard' | 'info' | 'chart' | 'back' | 'check' | 'lock' | 'sound' | 'mute', string> = {
+export const ICONS: Record<Destination['icon'] | 'camera' | 'upload' | 'keyboard' | 'info' | 'chart' | 'back' | 'check' | 'lock' | 'sound' | 'mute' | 'chip', string> = {
   recycle: '<path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7L5.5 12"/><path d="m11 19 2 2-2 2"/><path d="M13 21h4.2a1.8 1.8 0 0 0 1.6-2.7L17.3 15"/><path d="m14 5.6-1.2-2a1.8 1.8 0 0 0-3.1 0L7.3 7.7"/><path d="m4.6 9.5 2.7-1.8 1.8 2.7"/><path d="m16.4 9.3 2.7 1.8-.6-3.2"/>',
   food: '<path d="M12 7c-1.5-2.5-6-2.5-7 1.5S6.5 18 9 19.5c1.2.7 2 .2 3 .2s1.8.5 3-.2c2.5-1.5 5-7 4-11S13.5 4.5 12 7Z"/><path d="M12 7c0-2 1-3.5 3-4"/>',
   trash: '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M5 6l1.2 14a2 2 0 0 0 2 1.8h7.6a2 2 0 0 0 2-1.8L19 6"/>',
@@ -22,6 +22,7 @@ export const ICONS: Record<Destination['icon'] | 'camera' | 'upload' | 'keyboard
   check: '<path d="M20 6 9 17l-5-5"/>',
   sound: '<path d="M11 5 6 9H2v6h4l5 4Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
   mute: '<path d="M11 5 6 9H2v6h4l5 4Z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/>',
+  chip: '<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
   lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
 };
 
