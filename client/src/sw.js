@@ -1,5 +1,5 @@
 /**
- * BinSight service worker (offline mode). Plain JS on purpose: it's copied as-is,
+ * Trashify service worker (offline mode). Plain JS on purpose: it's copied as-is,
  * with the precache list and version injected at build time (build/offline-plugin.ts).
  *
  * Strategy:
@@ -12,8 +12,8 @@
  */
 const PRECACHE = self.__PRECACHE__;
 const VERSION = self.__VERSION__;
-const SHELL = `binsight-shell-${VERSION}`;
-const RUNTIME = `binsight-runtime-${VERSION}`;
+const SHELL = `trashify-shell-${VERSION}`;
+const RUNTIME = `trashify-runtime-${VERSION}`;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -31,7 +31,8 @@ self.addEventListener('activate', (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((k) => k.startsWith('binsight-') && k !== SHELL && k !== RUNTIME)
+            // Also clears caches from before the rename (the app used to be "BinSight").
+            .filter((k) => (k.startsWith('trashify-') || k.startsWith('binsight-')) && k !== SHELL && k !== RUNTIME)
             .map((k) => caches.delete(k)),
         ),
       )

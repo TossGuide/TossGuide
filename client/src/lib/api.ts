@@ -6,7 +6,7 @@
  * localStorage and are retried later, so demo scans made without Wi-Fi still count.
  */
 import { load, save } from './storage';
-import type { DestinationId } from '@binsight/shared/rules/types';
+import type { DestinationId } from '@trashify/shared/rules/types';
 
 export interface ScanPayload {
   faculty: string;
@@ -22,7 +22,7 @@ export interface LeaderboardRow {
 }
 export type Leaderboard = { status: 'ok'; rows: LeaderboardRow[] } | { status: 'offline' };
 
-const OUTBOX_KEY = 'binsight.outbox';
+const OUTBOX_KEY = 'trashify.outbox';
 const OUTBOX_MAX = 50;
 const TIMEOUT_MS = 4000;
 

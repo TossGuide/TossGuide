@@ -13,7 +13,7 @@
  * - Streak: each diverted item in a row adds the next note of a rising pentatonic
  *   melody, which resets when something goes to landfill.
  */
-import type { DestinationId } from '@binsight/shared/rules/types';
+import type { DestinationId } from '@trashify/shared/rules/types';
 
 // C-major pentatonic, C4..E6 (Hz)
 const SCALE = [261.63, 293.66, 329.63, 392.0, 440.0, 523.25, 587.33, 659.25, 783.99, 880.0, 1046.5, 1174.66, 1318.51];

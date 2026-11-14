@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { FACULTIES } from '@binsight/shared/faculties';
+import { FACULTIES } from '@trashify/shared/faculties';
 
 const SECRET = 'sk-test-SECRET-123';
 process.env.FALLBACK_API_KEY = SECRET;
@@ -24,7 +24,7 @@ const logger = (msg: string) => {
 };
 
 function tmpFile(): string {
-  return path.join(tmpDir, `binsight-${crypto.randomUUID()}.json`);
+  return path.join(tmpDir, `trashify-${crypto.randomUUID()}.json`);
 }
 
 function makeApp(dataFile = tmpFile(), rateLimit = BIG_LIMIT) {
@@ -49,7 +49,7 @@ function record<T extends { text?: string; body?: unknown; headers?: Record<stri
 }
 
 beforeAll(() => {
-  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'binsight-blind-'));
+  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'trashify-blind-'));
 });
 
 afterAll(() => {

@@ -9,8 +9,8 @@
 //   UOFA_CHEAT      https://www.ualberta.ca/en/campus-operations-services/media-library/documents/waste-system-cheat-sheet-2021.pdf
 //   UOFA_HOWTO      https://www.ualberta.ca/en/campus-operations-services/buildings-grounds/recycling/how-to-recycle.html
 import { describe, it, expect } from 'vitest';
-import { resolve, possibleDestinations, lookupTyped } from '@binsight/shared/rules/engine';
-import { ITEMS, ITEMS_BY_ID } from '@binsight/shared/rules/items';
+import { resolve, possibleDestinations, lookupTyped } from '@trashify/shared/rules/engine';
+import { ITEMS, ITEMS_BY_ID } from '@trashify/shared/rules/items';
 
 type Ctx = 'edmonton-residential' | 'uofa-campus';
 const HOME: Ctx = 'edmonton-residential';

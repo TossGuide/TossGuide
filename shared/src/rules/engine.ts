@@ -1,5 +1,5 @@
 /**
- * The BinSight rules engine: (item, context, answers) -> where it goes and why.
+ * The Trashify rules engine: (item, context, answers) -> where it goes and why.
  *
  * Pure functions, no I/O, so the browser, server and eval harness all share it and
  * it's easy to unit test. It never throws on bad input: callers get { ok: false }.

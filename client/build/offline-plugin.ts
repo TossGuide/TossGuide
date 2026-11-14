@@ -38,7 +38,7 @@ function ortDir(): string {
 export function offlinePlugin(): Plugin {
   const swTemplate = path.resolve(__dirname, '../src/sw.js');
   return {
-    name: 'binsight-offline',
+    name: 'trashify-offline',
     configureServer(server) {
       const dir = ortDir();
       server.middlewares.use('/ort/', (req, res, next) => {

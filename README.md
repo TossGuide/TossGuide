@@ -1,6 +1,6 @@
-# BinSight
+# Trashify
 
-**Point. Sort. Done.** Point your phone at an item and BinSight tells you exactly which **City of Edmonton** or **University of Alberta** bin it goes in, and why, citing the official source.
+**Point. Sort. Done.** Point your phone at an item and Trashify tells you exactly which **City of Edmonton** or **University of Alberta** bin it goes in, and why, citing the official source.
 
 Built in 24 hours at **HackEd Beta 2026** (University of Alberta) by Aditya & Sanika.
 

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
 import { RedisStore, redisFromEnv } from '../src/redis-store';
 import { createApp } from '../src/app';
-import { impactOf } from '@binsight/shared/impact/impact';
+import { impactOf } from '@trashify/shared/impact/impact';
 
 function fakeUpstash(opts: { fail?: boolean } = {}) {
   const hash = new Map<string, number>();
