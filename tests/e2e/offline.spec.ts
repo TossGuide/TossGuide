@@ -19,7 +19,7 @@ test('@real-model offline: after one visit, the app and model work with no netwo
   await waitModelReady(page, 60_000);
   const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.getByRole('button', { name: 'Upload a photo' }).click()]);
   await chooser.setFiles('tests/fixtures/coffee_cup.jpg');
-  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__trashify?.screen));
+  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__tossguide?.screen));
   if ((await hook(page, 'screen')) === 'picker') await page.locator('.choice', { hasText: 'coffee cup' }).first().click();
   await expectDestination(page, 'edm_blue_bag');
 

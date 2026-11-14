@@ -1,6 +1,6 @@
 # Wikimedia Commons development set: credits
 
-Freely licensed photos used ONLY to tune Trashify before venue photos exist. Not the venue eval.
+Freely licensed photos used ONLY to tune TossGuide before venue photos exist. Not the venue eval.
 All images are 640 px thumbnails, unmodified. Any photo showing a person was removed.
 
 | File | Source | Author | Licence |

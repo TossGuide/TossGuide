@@ -14,7 +14,7 @@ Rules we follow:
 """
 import json, os, sys, time, urllib.error, urllib.parse, urllib.request, re, html
 
-UA = {'User-Agent': 'TrashifyEvalDevSet/0.2 (student hackathon project; contact via GitHub repo)'}
+UA = {'User-Agent': 'TossGuideEvalDevSet/0.2 (student hackathon project; contact via GitHub repo)'}
 OUT = 'eval/dev-commons'
 PER_ITEM = int(os.environ.get('PER_ITEM', '4'))
 OK_LICENCE = re.compile(r'^(CC0|Public domain|PD|CC BY(-SA)? [0-9.]+|CC BY(-SA)?)', re.I)

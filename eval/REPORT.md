@@ -1,4 +1,4 @@
-# Trashify evaluation report
+# TossGuide evaluation report
 
 **Data:** Wikimedia Commons dev set (object photos, not venue photos): 93 photos of 25 items · **Model:** Xenova/clip-vit-base-patch32 (q8 vision encoder) · **Generated:** 2026-11-14T01:42:03.988Z
 Bins are judged in the `edmonton-residential` context. Regenerate with `npm run eval`.

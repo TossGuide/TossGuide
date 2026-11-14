@@ -7,10 +7,10 @@
  * first visit). Text prompts were embedded offline (npm run embed) and are bundled.
  */
 import { AutoProcessor, CLIPVisionModelWithProjection, RawImage, env } from '@huggingface/transformers';
-import { classifyEmbedding, type PromptBank } from '@trashify/shared/ml/classify-core';
-import { MODEL_ID, VISION_DTYPE } from '@trashify/shared/ml/model-config';
-import calibration from '@trashify/shared/ml/calibration.json';
-import bankJson from '@trashify/shared/ml/embeddings/prompts.json';
+import { classifyEmbedding, type PromptBank } from '@tossguide/shared/ml/classify-core';
+import { MODEL_ID, VISION_DTYPE } from '@tossguide/shared/ml/model-config';
+import calibration from '@tossguide/shared/ml/calibration.json';
+import bankJson from '@tossguide/shared/ml/embeddings/prompts.json';
 import type { FromWorker, ToWorker } from './protocol';
 
 const bank = bankJson as PromptBank;
@@ -19,7 +19,7 @@ env.useBrowserCache = true;
 
 /**
  * Serve the ONNX Runtime WASM from our own origin (/ort/, copied there by the
- * trashify-offline Vite plugin) instead of jsDelivr: one less third-party request,
+ * tossguide-offline Vite plugin) instead of jsDelivr: one less third-party request,
  * no CDN outage risk on demo day, and the service worker can cache it for offline.
  * Same variant choice as Transformers.js: Safari < 26 without WebGPU can't run the
  * asyncify build, so it gets the plain one.
