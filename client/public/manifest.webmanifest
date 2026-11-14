@@ -1,0 +1,16 @@
+{
+  "name": "BinSight: which bin?",
+  "short_name": "BinSight",
+  "description": "Point your camera at an item to see which Edmonton or UofA bin it goes in, and why.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f6f3",
+  "theme_color": "#0f3d2e",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

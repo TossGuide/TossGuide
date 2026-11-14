@@ -17,6 +17,26 @@ const bank = bankJson as PromptBank;
 env.allowLocalModels = false; // always fetch from the Hub (then browser cache)
 env.useBrowserCache = true;
 
+/**
+ * Serve the ONNX Runtime WASM from our own origin (/ort/, copied there by the
+ * binsight-offline Vite plugin) instead of jsDelivr: one less third-party request,
+ * no CDN outage risk on demo day, and the service worker can cache it for offline.
+ * Same variant choice as Transformers.js: Safari < 26 without WebGPU can't run the
+ * asyncify build, so it gets the plain one.
+ */
+function ortVariant(): string {
+  const ua = navigator.userAgent;
+  const safari = /Apple/.test(navigator.vendor ?? '') && !/Chrome|Android|CriOS|FxiOS|EdgiOS/.test(ua);
+  const v = Number(ua.match(/Version\/(\d+)/)?.[1] ?? 99);
+  return safari && v < 26 && !('gpu' in navigator) ? '' : '.asyncify';
+}
+const onnxEnv = env.backends.onnx as { wasm?: { wasmPaths?: unknown } };
+if (onnxEnv.wasm) {
+  const base = new URL('/ort/', self.location.origin).href;
+  const v = ortVariant();
+  onnxEnv.wasm.wasmPaths = { mjs: `${base}ort-wasm-simd-threaded${v}.mjs`, wasm: `${base}ort-wasm-simd-threaded${v}.wasm` };
+}
+
 let processor: Awaited<ReturnType<typeof AutoProcessor.from_pretrained>> | null = null;
 let model: Awaited<ReturnType<typeof CLIPVisionModelWithProjection.from_pretrained>> | null = null;
 let loading: Promise<void> | null = null;
