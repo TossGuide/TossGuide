@@ -3,7 +3,7 @@
 Do this on the **demo phone**, at the **demo table**, ~1 hour before judging. Fill in one row per object.
 Anything wrong gets a fix (prompt tweak in `shared/src/rules/items.ts` + `npm run embed`, or a rules fix with a source) or is removed from the props.
 
-| # | Object | Expected bin (Home) | Expected bin (Campus) | What BinSight said | Confidence / picker? | OK? | Fix or action |
+| # | Object | Expected bin (Home) | Expected bin (Campus) | What Trashify said | Confidence / picker? | OK? | Fix or action |
 |---|---|---|---|---|---|---|---|
 | 1 | Paper coffee cup + lid | Recycling (blue bag) | Landfill | | | | |
 | 2 | Pizza box | Grease? No → Recycling (blue bag); Yes → Garbage (black cart) | No → Mixed Paper; Yes → Organics | | | | |

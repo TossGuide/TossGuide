@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { countResult, EMPTY_TALLY_STATE, formatCo2, sanitize } from '../src/lib/tally';
-import { impactOf } from '@binsight/shared/impact/impact';
+import { impactOf } from '@trashify/shared/impact/impact';
 
 describe('countResult', () => {
   it('counts a diverted item and grows the streak', () => {
@@ -45,5 +45,31 @@ describe('sanitize / formatCo2', () => {
     expect(formatCo2(0.1309)).toBe('131 g');
     expect(formatCo2(1.239)).toBe('1.24 kg');
     expect(formatCo2(NaN)).toBe('0 g');
+  });
+});
+
+describe('migrateLegacyKeys (BinSight -> Trashify rename)', () => {
+  it('moves old keys to the new names once, without overwriting newer data', async () => {
+    const m = new Map<string, string>([
+      ['binsight.tally', '{"scans":3}'],
+      ['binsight.faculty', '"Science"'],
+      ['trashify.faculty', '"Arts"'],
+      ['other', 'x'],
+    ]);
+    const ls = {
+      get length() { return m.size; },
+      key: (i: number) => [...m.keys()][i] ?? null,
+      getItem: (k: string) => m.get(k) ?? null,
+      setItem: (k: string, v: string) => void m.set(k, v),
+      removeItem: (k: string) => void m.delete(k),
+    };
+    (globalThis as any).localStorage = ls;
+    const { migrateLegacyKeys } = await import('../src/lib/storage');
+    migrateLegacyKeys();
+    expect(m.get('trashify.tally')).toBe('{"scans":3}');
+    expect(m.get('trashify.faculty')).toBe('"Arts"');
+    expect([...m.keys()].some((k) => k.startsWith('binsight.'))).toBe(false);
+    expect(m.get('other')).toBe('x');
+    delete (globalThis as any).localStorage;
   });
 });

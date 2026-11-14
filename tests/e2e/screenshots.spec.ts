@@ -13,7 +13,7 @@ async function shot(page: Page, name: string, project: string) {
 async function upload(page: Page, file: string) {
   const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.getByRole('button', { name: 'Upload a photo' }).click()]);
   await chooser.setFiles(file);
-  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__binsight?.screen));
+  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__trashify?.screen));
 }
 
 test('@real-model screenshots for Devpost', async ({ page }, info) => {
@@ -28,7 +28,7 @@ test('@real-model screenshots for Devpost', async ({ page }, info) => {
 
   // Result: live fake-camera scan of the coffee cup.
   await page.getByRole('button', { name: 'Scan item' }).click();
-  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__binsight?.screen));
+  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__trashify?.screen));
   if ((await hook(page, 'screen')) === 'picker') {
     await shot(page, '3-picker', p);
     await page.locator('.choice', { hasText: 'coffee cup' }).first().click();

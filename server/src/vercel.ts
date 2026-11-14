@@ -9,10 +9,10 @@ import { createApp } from './app';
 import { RedisStore, redisFromEnv } from './redis-store';
 
 const redis = redisFromEnv();
-if (!redis) console.log('BinSight: no Redis configured; leaderboard uses /tmp and may reset');
+if (!redis) console.log('Trashify: no Redis configured; leaderboard uses /tmp and may reset');
 
 const app = createApp({
-  dataFile: '/tmp/binsight-scans.json',
+  dataFile: '/tmp/trashify-scans.json',
   store: redis ? new RedisStore(redis) : undefined,
   trustProxy: true, // Vercel's edge sets X-Forwarded-For
   rateLimit: { windowMs: 60_000, max: 30 },

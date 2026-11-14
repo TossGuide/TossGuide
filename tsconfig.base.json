@@ -11,6 +11,6 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "paths": { "@binsight/shared": ["shared/src/index.ts"], "@binsight/shared/*": ["shared/src/*"] }
+    "paths": { "@trashify/shared": ["shared/src/index.ts"], "@trashify/shared/*": ["shared/src/*"] }
   }
 }

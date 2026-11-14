@@ -10,7 +10,7 @@ test.beforeEach(({}, info) => test.skip(info.project.name !== 'mobile', 'real-mo
 
 /** If the app asks us to confirm, pick the expected item (the model ranked it, we just confirm). */
 async function confirmIfAsked(page: import('@playwright/test').Page, name: string) {
-  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__binsight?.screen));
+  await page.waitForFunction(() => ['result', 'question', 'picker'].includes((window as any).__trashify?.screen));
   if ((await hook(page, 'screen')) === 'picker') await page.locator('.choice', { hasText: name }).first().click();
 }
 

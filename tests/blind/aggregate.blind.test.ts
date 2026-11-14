@@ -2,7 +2,7 @@
 // Contract: group prompt logits by item, combine per method (default 'max'), softmax over items with
 // temperature (default 1); return all items sorted best first; scores sum to 1.
 import { describe, it, expect } from 'vitest';
-import { aggregate } from '@binsight/shared/ml/aggregate';
+import { aggregate } from '@trashify/shared/ml/aggregate';
 
 // Two items: pop_can prompts {1, 3}, coffee_cup prompts {2}
 const PROMPTS = [

@@ -1,5 +1,5 @@
 /** Messages between the UI thread and the model Web Worker. */
-import type { Candidate } from '@binsight/shared/ml/aggregate';
+import type { Candidate } from '@trashify/shared/ml/aggregate';
 
 export type ToWorker =
   | { type: 'load' }

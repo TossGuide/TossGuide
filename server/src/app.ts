@@ -1,5 +1,5 @@
 /**
- * BinSight leaderboard API. Tiny on purpose: the app works without it.
+ * Trashify leaderboard API. Tiny on purpose: the app works without it.
  *
  *   GET  /api/health       -> { ok: true }
  *   POST /api/scan         -> records { faculty, itemId, destination, divertedFromLandfill }
@@ -13,11 +13,11 @@ import express, { type ErrorRequestHandler, type Request } from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
-import { FACULTIES } from '@binsight/shared/faculties';
-import { DESTINATIONS } from '@binsight/shared/rules/destinations';
-import { possibleDestinations } from '@binsight/shared/rules/engine';
-import { getItem } from '@binsight/shared/rules/items';
-import { CONTEXTS, type DestinationId } from '@binsight/shared/rules/types';
+import { FACULTIES } from '@trashify/shared/faculties';
+import { DESTINATIONS } from '@trashify/shared/rules/destinations';
+import { possibleDestinations } from '@trashify/shared/rules/engine';
+import { getItem } from '@trashify/shared/rules/items';
+import { CONTEXTS, type DestinationId } from '@trashify/shared/rules/types';
 import { createRateLimiter, type RateLimitOptions } from './rate-limit';
 import { ScanStore, totalsFromScans, type LeaderboardStore } from './store';
 

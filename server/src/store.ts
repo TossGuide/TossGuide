@@ -15,8 +15,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
-import { impactOf } from '@binsight/shared/impact/impact';
-import type { DestinationId } from '@binsight/shared/rules/types';
+import { impactOf } from '@trashify/shared/impact/impact';
+import type { DestinationId } from '@trashify/shared/rules/types';
 
 export const StoredScan = z.object({
   faculty: z.string().max(100),

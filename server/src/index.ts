@@ -18,7 +18,8 @@ import { ScanStore } from './store';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const envFile = path.join(root, '.env');
-if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
+// Tests set TRASHIFY_IGNORE_ENV_FILE=1 so they can never write to the real database.
+if (process.env.TRASHIFY_IGNORE_ENV_FILE !== '1' && fs.existsSync(envFile)) process.loadEnvFile(envFile);
 
 const port = Number(process.env.PORT) || 8787;
 const dataFile = process.env.DATA_FILE || path.join(root, 'server/data/scans.json');
@@ -40,4 +41,4 @@ if (process.env.DATABASE_URL) {
 }
 
 const app = createApp({ dataFile, store, trustProxy, staticDir: path.join(root, 'client/dist') });
-app.listen(port, () => console.log(`BinSight server on http://localhost:${port}`));
+app.listen(port, () => console.log(`Trashify server on http://localhost:${port}`));

@@ -10,7 +10,7 @@ export default tseslint.config(
   {
     languageOptions: { globals: { ...globals.browser, ...globals.node, ...globals.serviceworker } },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off', // tests poke at window.__binsight
+      '@typescript-eslint/no-explicit-any': 'off', // tests poke at window.__trashify
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       'no-empty-pattern': 'off', // Playwright fixtures use ({}, testInfo)
     },

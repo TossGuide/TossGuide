@@ -5,8 +5,8 @@
  * item, or flips Home/Campus), the same scan is re-counted with the new destination
  * instead of being added twice, so the tally can't be inflated by tapping around.
  */
-import { addScan, EMPTY_TALLY, impactOf, type Tally } from '@binsight/shared/impact/impact';
-import type { DestinationId } from '@binsight/shared/rules/types';
+import { addScan, EMPTY_TALLY, impactOf, type Tally } from '@trashify/shared/impact/impact';
+import type { DestinationId } from '@trashify/shared/rules/types';
 
 export interface TallyState extends Tally {
   /** The scan most recently counted, so a correction can replace it. */

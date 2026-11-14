@@ -1,5 +1,5 @@
 /**
- * BinSight evaluation harness: `npm run eval [-- --dir eval/images --label "venue set"]`
+ * Trashify evaluation harness: `npm run eval [-- --dir eval/images --label "venue set"]`
  *
  * Runs the REAL classifier (same model, same prompt embeddings, same scoring code as
  * the browser) over labelled photos in <dir>/<itemId>/*.jpg and reports:
@@ -260,7 +260,7 @@ function report(
 ): string {
   const short = (id: string) => id.replace(/_/g, ' ');
   const lines = [
-    `# BinSight evaluation report`,
+    `# Trashify evaluation report`,
     ``,
     `**Data:** ${s.label}: ${s.images} photos of ${s.items} items · **Model:** ${s.model} · **Generated:** ${s.generatedAt}`,
     `Bins are judged in the \`${s.context}\` context. Regenerate with \`npm run eval\`.`,

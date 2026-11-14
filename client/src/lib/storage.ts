@@ -20,3 +20,23 @@ export function save(key: string, value: unknown): void {
     /* storage unavailable: keep working in memory */
   }
 }
+
+/**
+ * The app was called BinSight before it became Trashify. Move anything saved under the
+ * old "binsight.*" keys (tally, faculty, context, sound, outbox) to "trashify.*" once,
+ * so nobody's tally resets because of the rename.
+ */
+export function migrateLegacyKeys(): void {
+  try {
+    const old = 'binsight.';
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (!k?.startsWith(old)) continue;
+      const next = `trashify.${k.slice(old.length)}`;
+      if (localStorage.getItem(next) === null) localStorage.setItem(next, localStorage.getItem(k) ?? '');
+      localStorage.removeItem(k);
+    }
+  } catch {
+    /* storage unavailable: nothing to migrate */
+  }
+}
