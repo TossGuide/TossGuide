@@ -2,7 +2,10 @@
  * Vercel build (Build Output API v3), run by Vercel via vercel.json "buildCommand".
  *
  *   static site  <- client/dist (production build, no test hook)
- *   /api/*       <- one Node serverless function: server/src/vercel.ts bundled with esbuild
+ *   /api/*       <- if BACKEND_URL is set (Vercel env var): forwarded to that server, e.g. the
+ *                   VPS running `npm start` with its local PostgreSQL leaderboard.
+ *                   Otherwise: one Node serverless function (server/src/vercel.ts, bundled
+ *                   with esbuild), with Redis if configured, else a /tmp file that can reset.
  *
  * Writing .vercel/output ourselves means Vercel deploys exactly what we tested, with no
  * framework guessing. Locally: `node scripts/vercel-build.mjs` then inspect .vercel/output.
@@ -13,6 +16,11 @@ import { join } from 'node:path';
 import { build } from 'esbuild';
 
 const OUT = '.vercel/output';
+const BACKEND_URL = (process.env.BACKEND_URL || '').trim().replace(/\/+$/, '');
+if (BACKEND_URL && !/^https?:\/\/[^/\s]+$/.test(BACKEND_URL)) {
+  console.error(`BACKEND_URL must look like https://host or http://host:port (got "${BACKEND_URL}")`);
+  process.exit(1);
+}
 const run = (cmd) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, VITE_TEST_HOOK: '' } });
 
 rmSync(OUT, { recursive: true, force: true });
@@ -54,7 +62,9 @@ writeFileSync(
       routes: [
         { src: '^/(sw\\.js|index\\.html|manifest\\.webmanifest)$', headers: noCache, continue: true },
         { src: '^/assets/(.*)$', headers: { 'cache-control': 'public, max-age=31536000, immutable' }, continue: true },
-        { src: '^/api/(.*)$', dest: '/api?__path=$1' },
+        BACKEND_URL
+          ? { src: '^/api/(.*)$', dest: `${BACKEND_URL}/api/$1` }
+          : { src: '^/api/(.*)$', dest: '/api?__path=$1' },
         { handle: 'filesystem' },
         { src: '^/(.*)$', dest: '/index.html' },
       ],
@@ -64,3 +74,4 @@ writeFileSync(
   ),
 );
 console.log(`\nVercel output ready in ${OUT}`);
+console.log(BACKEND_URL ? `/api/* -> ${BACKEND_URL}/api/*` : '/api/* -> serverless function (set BACKEND_URL to use your own server)');

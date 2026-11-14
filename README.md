@@ -70,10 +70,10 @@ npm run eval -- --dir eval/images --label "venue eval set"   # accuracy report o
 npm run build && npm start   # production build + API on one port (http://localhost:8787)
 ```
 
-- **No API keys or `.env` needed.** Optional: `PORT` (default 8787) and `DATA_FILE` (leaderboard JSON, default `server/data/scans.json`). See `.env.example`.
+- **No API keys needed.** Optional settings go in `.env` (see `.env.example`): `PORT`, `DATABASE_URL` (PostgreSQL leaderboard), `DATA_FILE` (JSON leaderboard when there's no database), `TRUST_PROXY`.
 - **Phone testing:** the camera needs HTTPS (or localhost). Use a tunnel such as `npx cloudflared tunnel --url http://localhost:8787` after `npm run build && npm start`, or deploy. Upload and type-it work without a camera.
 - **One-command deploy** (Linux server with tmux and [cloudflared](https://github.com/cloudflare/cloudflared/releases)): `scripts/deploy.sh` pulls `main`, makes a production build, frees port 8080, starts the server in tmux and opens a Cloudflare HTTPS tunnel (the phone camera needs HTTPS), then prints the link. Re-run it after every merge; `--new-tunnel` gets a fresh link.
-- **Vercel:** import the GitHub repo (Framework preset: Other; `vercel.json` sets the build). `scripts/vercel-build.mjs` writes the static app plus one serverless function for `/api/*`. For a leaderboard that persists, add **Upstash Redis** (Vercel → Storage → Upstash for Redis → connect to the project), which sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`, then redeploy. Without it the app still works, but the leaderboard lives in `/tmp` and can reset.
+- **Vercel + your own server (what we run):** Vercel hosts the app; set the Vercel env var `BACKEND_URL` (e.g. `http://<server-ip>:8080`) and `/api/*` is forwarded to the server, which keeps the leaderboard in a **local PostgreSQL** database (`DATABASE_URL` in the server's `.env`, never exposed to the internet). Without `BACKEND_URL`, `/api/*` runs as a Vercel serverless function (Upstash Redis if `KV_REST_API_URL`/`KV_REST_API_TOKEN` are set, otherwise a `/tmp` file that can reset).
 - **Deploying (other options):** the ML runs in the browser, so no GPU server is needed. The simplest setup is one small VM running `npm run build && npm start` behind HTTPS (Caddy/nginx), with `DATA_FILE` on a persistent disk. Static hosts (e.g. Vercel) can serve `client/dist`, but the leaderboard needs a server with a persistent file system.
 
 ## Data sources

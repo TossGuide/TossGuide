@@ -13,6 +13,8 @@
 #      phone camera) and prints the link. The link stays the same until the tunnel restarts.
 #
 # Settings (env vars): PORT (8080), DATA_FILE (/var/lib/binsight/scans.json), REPO (repo root).
+# The server also reads .env in the repo root (DATABASE_URL for the PostgreSQL leaderboard,
+# TRUST_PROXY); see .env.example. Real env vars set here win over .env.
 # Logs: tmux attach -t binsight  /  tmux attach -t tunnel   (detach: Ctrl+B then D)
 set -euo pipefail
 
@@ -59,6 +61,11 @@ if pids=$(sudo fuser "$PORT/tcp" 2>/dev/null) && [[ -n "${pids// /}" ]]; then
   echo "killing processes still on port $PORT: $pids"
   sudo fuser -k "$PORT/tcp" || true
   sleep 1
+fi
+
+if grep -q '^DATABASE_URL=.\+' .env 2>/dev/null; then
+  systemctl is-active --quiet postgresql || die "PostgreSQL isn't running (sudo systemctl start postgresql)"
+  echo "leaderboard: PostgreSQL (DATABASE_URL in .env)"
 fi
 
 say "4/5 Starting the server on port $PORT"
