@@ -4,7 +4,8 @@
  *
  * Strategy:
  * - App shell (HTML, JS, CSS, fonts, icons, ONNX Runtime WASM): precached on install.
- * - Page navigations: network first (so a new deploy shows up), cached index offline.
+ * - Page navigations and the install manifest: network first (so a new deploy or app name
+ *   shows up), cached copy offline.
  * - Other same-origin GETs: cache first, then network (and cache the response).
  * - /api/*: never cached; the app handles "leaderboard offline" itself.
  * - Model weights from Hugging Face: Transformers.js already keeps them in its own
@@ -46,6 +47,23 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // Hub model files etc.
   if (url.pathname.startsWith('/api/')) return;
+
+  // The install manifest (app name, icons) is network-first too, so a rename or new icon
+  // shows up on the next visit instead of being stuck in the offline cache.
+  if (url.pathname === '/manifest.webmanifest') {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone(); // clone now: the page starts reading `res` right away
+            caches.open(SHELL).then((c) => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req, { cacheName: SHELL }).then((r) => r || Response.error())),
+    );
+    return;
+  }
 
   if (req.mode === 'navigate') {
     event.respondWith(
