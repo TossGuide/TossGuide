@@ -4,6 +4,8 @@
 
 Built in 24 hours at **HackEd Beta 2026** (University of Alberta) by Aditya & Sanika.
 
+**Try it:** [trashifyyeg.vercel.app](https://trashifyyeg.vercel.app) · **Pitch deck:** [docs/TrashifyYEG-pitch-deck.pptx](docs/TrashifyYEG-pitch-deck.pptx)
+
 <p>
   <img src="docs/screenshots/mobile-1-scan.png" width="19%" alt="Scan screen with the live camera and a framing guide">
   <img src="docs/screenshots/mobile-2-result.png" width="19%" alt="Result: paper coffee cup goes in the blue bag, with reason, prep steps and sources">
