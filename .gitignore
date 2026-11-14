@@ -1,0 +1,27 @@
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+
+# Server runtime data
+server/data/
+
+# Model cache (downloaded at runtime / eval time)
+.cache/
+models-cache/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Eval photos: team photos are committed ONLY if they contain no faces.
+# Generated fixture videos are large; regenerate with scripts/make-fixtures.sh
+tests/fixtures/*.y4m
+tests/fixtures/*.mjpeg
