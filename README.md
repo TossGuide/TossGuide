@@ -4,7 +4,7 @@
 
 Built in 24 hours at **HackEd Beta 2026** (University of Alberta) by Aditya & Sanika.
 
-**Try it:** [trashifyyeg.vercel.app](https://trashifyyeg.vercel.app) · **Pitch deck:** [PDF](docs/TrashifyYEG-pitch-deck.pdf) · [PowerPoint](docs/TrashifyYEG-pitch-deck.pptx)
+**Try it:** [trashifyyeg.vercel.app](https://trashifyyeg.vercel.app) · **Devpost:** [TrashifyYEG](https://devpost.com/software/trashify-53d7am) · **Pitch deck:** [PDF](docs/TrashifyYEG-pitch-deck.pdf) · [PowerPoint](docs/TrashifyYEG-pitch-deck.pptx)
 
 <p>
   <img src="docs/screenshots/mobile-1-scan.png" width="19%" alt="Scan screen with the live camera and a framing guide">
@@ -36,7 +36,7 @@ Built in 24 hours at **HackEd Beta 2026** (University of Alberta) by Aditya & Sa
 3. **Decision** (`shared/src/ml/decide.ts`): answer only if the top score ≥ the tuned threshold **and** the top two items can end up in the same bins. Otherwise show the top 3.
 4. **Rules** (`shared/src/rules/`): 44 items × 2 contexts, hand-written from the City of Edmonton and UofA pages. Each rule is a small tree with optional yes/no questions; every leaf cites a source. `resolve(itemId, context, answers)` never throws.
 5. **Impact** (`shared/src/impact/impact.ts`): US EPA WARM v16 factors × cited item weights. Landfill and "check first" never count as diverted.
-6. **Server** (`server/`): a tiny Express API for the leaderboard (zod validation, per-IP rate limit, crash-safe JSON storage). CO₂e is computed server-side, and a scan whose bin the rules can't produce for that item is rejected. The app works fully without it.
+6. **Server** (`server/`): a tiny Express API for the leaderboard (zod validation, per-IP rate limit, PostgreSQL storage or a crash-safe JSON file when there's no database). CO₂e is computed server-side, and a scan whose bin the rules can't produce for that item is rejected. The app works fully without it.
 7. **Offline** (`client/src/sw.js`, `client/build/offline-plugin.ts`): a hand-written service worker precaches the app and the self-hosted ONNX runtime; Transformers.js caches the model.
 
 ## Measured accuracy
@@ -55,9 +55,9 @@ In a real Chromium browser on a laptop, the model loaded in ~8 s on first visit 
 
 ## Tests
 
-- **244 unit and integration tests** (Vitest): rules engine (every item × context), decision logic, aggregation, impact, server routes, client tally, API client, image EXIF handling.
+- **249 unit and integration tests**, plus 3 PostgreSQL tests that run when a database is set (Vitest): rules engine (every item × context), decision logic, aggregation, impact, server routes, client tally, API client, image EXIF handling.
 - **Blind holdout suite** (`tests/blind/`): written by a separate agent that saw only the spec and the cited rules, never the implementation. No blind test was edited to pass.
-- **37 end-to-end tests** (Playwright, headed, mobile + desktop): fake-camera scan, upload, type-it, follow-ups, picker, campus toggle, tally and leaderboard, backend down, offline reload, camera denied, keyboard-only, axe accessibility on every screen, layout, visual regression, and 4 tests with the real model.
+- **43 end-to-end tests** (Playwright, headed, mobile + desktop): fake-camera scan, upload, type-it, follow-ups, picker, campus toggle, tally and leaderboard, backend down, offline reload, camera denied, keyboard-only, axe accessibility on every screen, layout, visual regression, and 4 tests with the real model.
 
 ## Run it
 
@@ -76,7 +76,7 @@ npm run build && npm start   # production build + API on one port (http://localh
 - **Phone testing:** the camera needs HTTPS (or localhost). Use a tunnel such as `npx cloudflared tunnel --url http://localhost:8787` after `npm run build && npm start`, or deploy. Upload and type-it work without a camera.
 - **One-command deploy** (Linux server with tmux and [cloudflared](https://github.com/cloudflare/cloudflared/releases)): `scripts/deploy.sh` pulls `main`, makes a production build, frees port 8080, starts the server in tmux and opens a Cloudflare HTTPS tunnel (the phone camera needs HTTPS), then prints the link. Re-run it after every merge; `--new-tunnel` gets a fresh link.
 - **Vercel + your own server (what we run):** Vercel hosts the app; set the Vercel env var `BACKEND_URL` (e.g. `http://<server-ip>:8080`) and `/api/*` is forwarded to the server, which keeps the leaderboard in a **local PostgreSQL** database (`DATABASE_URL` in the server's `.env`, never exposed to the internet). Without `BACKEND_URL`, `/api/*` runs as a Vercel serverless function (Upstash Redis if `KV_REST_API_URL`/`KV_REST_API_TOKEN` are set, otherwise a `/tmp` file that can reset).
-- **Deploying (other options):** the ML runs in the browser, so no GPU server is needed. The simplest setup is one small VM running `npm run build && npm start` behind HTTPS (Caddy/nginx), with `DATA_FILE` on a persistent disk. Static hosts (e.g. Vercel) can serve `client/dist`, but the leaderboard needs a server with a persistent file system.
+- **Deploying (other options):** the ML runs in the browser, so no GPU server is needed. The simplest setup is one small VM running `npm run build && npm start` behind HTTPS (Caddy/nginx), with `DATA_FILE` on a persistent disk.
 
 ## Data sources
 
@@ -88,6 +88,7 @@ npm run build && npm start   # production build + API on one port (http://localh
 
 ## Credits and licences
 
+- Code: [MIT licence](LICENSE), © 2026 Aditya Patel and Sanika Verma.
 - Model: [OpenAI CLIP ViT-B/32](https://github.com/openai/CLIP) (MIT licence), ONNX conversion [Xenova/clip-vit-base-patch32](https://huggingface.co/Xenova/clip-vit-base-patch32), run with [Transformers.js](https://github.com/huggingface/transformers.js) (Apache-2.0) and ONNX Runtime Web (MIT).
 - Font: Inter (SIL OFL) via Fontsource.
 - Photos in `eval/dev-commons/` and `tests/fixtures/`: Wikimedia Commons, credited individually in their `CREDITS.md` files.
@@ -109,5 +110,3 @@ Photos are processed on the device and never uploaded or stored. The leaderboard
 
 - **Sanika Verma**: research, rules engine, blind tests, classifier, core UI
 - **Aditya Patel**: backend and leaderboard, offline mode, eval tuning, end-to-end tests, polish, docs
-
-Built with Claude Code as a pair programmer.

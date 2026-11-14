@@ -37,7 +37,7 @@ test('the install manifest is never stuck on an old cached copy (app name after 
   // Plant a stale manifest (an old app name) in the offline cache, as an old version would have.
   await page.evaluate(async () => {
     const name = (await caches.keys()).find((k) => k.startsWith('trashifyyeg-shell-'))!;
-    const stale = new Response(JSON.stringify({ name: 'TossGuide', short_name: 'TossGuide' }), {
+    const stale = new Response(JSON.stringify({ name: 'Old name', short_name: 'Old name' }), {
       headers: { 'Content-Type': 'application/manifest+json' },
     });
     await (await caches.open(name)).put('/manifest.webmanifest', stale);

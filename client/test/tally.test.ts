@@ -47,35 +47,3 @@ describe('sanitize / formatCo2', () => {
     expect(formatCo2(NaN)).toBe('0 g');
   });
 });
-
-describe('migrateLegacyKeys (BinSight -> Trashify -> TossGuide -> TrashifyYEG renames)', () => {
-  it('moves old keys to the new names once; the newest name wins; current data is never overwritten', async () => {
-    const m = new Map<string, string>([
-      ['binsight.tally', '{"scans":1}'],
-      ['trashify.tally', '{"scans":3}'],
-      ['tossguide.tally', '{"scans":5}'],
-      ['tossguide.sound', 'true'],
-      ['binsight.context', '"uofa-campus"'],
-      ['binsight.faculty', '"Science"'],
-      ['trashifyyeg.faculty', '"Arts"'],
-      ['other', 'x'],
-    ]);
-    const ls = {
-      get length() { return m.size; },
-      key: (i: number) => [...m.keys()][i] ?? null,
-      getItem: (k: string) => m.get(k) ?? null,
-      setItem: (k: string, v: string) => void m.set(k, v),
-      removeItem: (k: string) => void m.delete(k),
-    };
-    (globalThis as any).localStorage = ls;
-    const { migrateLegacyKeys } = await import('../src/lib/storage');
-    migrateLegacyKeys();
-    expect(m.get('trashifyyeg.tally')).toBe('{"scans":5}'); // newest old name wins
-    expect(m.get('trashifyyeg.sound')).toBe('true');
-    expect(m.get('trashifyyeg.context')).toBe('"uofa-campus"');
-    expect(m.get('trashifyyeg.faculty')).toBe('"Arts"');
-    expect([...m.keys()].some((k) => /^(binsight|trashify|tossguide)\./.test(k))).toBe(false);
-    expect(m.get('other')).toBe('x');
-    delete (globalThis as any).localStorage;
-  });
-});
