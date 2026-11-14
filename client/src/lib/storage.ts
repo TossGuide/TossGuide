@@ -20,27 +20,3 @@ export function save(key: string, value: unknown): void {
     /* storage unavailable: keep working in memory */
   }
 }
-
-/**
- * The app was called BinSight, then Trashify, then TossGuide, before it became TrashifyYEG.
- * Move anything saved under the old "binsight.*" / "trashify.*" / "tossguide.*" keys (tally, faculty, context, sound,
- * outbox) to "trashifyyeg.*" once, so nobody's tally resets because of a rename.
- * The newest name wins if a key exists under more than one name.
- */
-const LEGACY_PREFIXES = ['tossguide.', 'trashify.', 'binsight.']; // newest first
-
-export function migrateLegacyKeys(): void {
-  try {
-    for (const old of LEGACY_PREFIXES) {
-      for (let i = localStorage.length - 1; i >= 0; i--) {
-        const k = localStorage.key(i);
-        if (!k?.startsWith(old)) continue;
-        const next = `trashifyyeg.${k.slice(old.length)}`;
-        if (localStorage.getItem(next) === null) localStorage.setItem(next, localStorage.getItem(k) ?? '');
-        localStorage.removeItem(k);
-      }
-    }
-  } catch {
-    /* storage unavailable: nothing to migrate */
-  }
-}

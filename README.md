@@ -55,7 +55,7 @@ In a real Chromium browser on a laptop, the model loaded in ~8 s on first visit 
 
 ## Tests
 
-- **250 unit and integration tests**, plus 3 PostgreSQL tests that run when a database is set (Vitest): rules engine (every item × context), decision logic, aggregation, impact, server routes, client tally, API client, image EXIF handling.
+- **249 unit and integration tests**, plus 3 PostgreSQL tests that run when a database is set (Vitest): rules engine (every item × context), decision logic, aggregation, impact, server routes, client tally, API client, image EXIF handling.
 - **Blind holdout suite** (`tests/blind/`): written by a separate agent that saw only the spec and the cited rules, never the implementation. No blind test was edited to pass.
 - **43 end-to-end tests** (Playwright, headed, mobile + desktop): fake-camera scan, upload, type-it, follow-ups, picker, campus toggle, tally and leaderboard, backend down, offline reload, camera denied, keyboard-only, axe accessibility on every screen, layout, visual regression, and 4 tests with the real model.
 

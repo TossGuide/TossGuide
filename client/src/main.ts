@@ -16,7 +16,7 @@ import { lookupTyped, resolve } from '@trashifyyeg/shared/rules/engine';
 import { ITEMS, getItem } from '@trashifyyeg/shared/rules/items';
 import { CONTEXTS, type Answers, type Context, type QuestionId, type Result } from '@trashifyyeg/shared/rules/types';
 import { fileToPixels, videoToPixels, type Pixels } from './lib/image';
-import { load as loadStored, migrateLegacyKeys, save as saveStored } from './lib/storage';
+import { load as loadStored, save as saveStored } from './lib/storage';
 import { StubClassifier, WorkerClassifier, type Classifier } from './ml/classifier';
 import { icon } from './ui/icons';
 import { FACULTIES } from '@trashifyyeg/shared/faculties';
@@ -44,7 +44,6 @@ interface Pending {
   via: 'camera' | 'upload' | 'typed' | 'picker';
 }
 
-migrateLegacyKeys(); // before `state` reads saved settings below
 
 const isContext = (v: unknown): v is Context => CONTEXTS.includes(v as Context);
 const isFaculty = (v: unknown): v is string => typeof v === 'string' && (FACULTIES as readonly string[]).includes(v);

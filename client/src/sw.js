@@ -32,8 +32,7 @@ self.addEventListener('activate', (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            // Also clears caches from before the renames (the app used to be BinSight, then Trashify, then TossGuide).
-            .filter((k) => /^(trashifyyeg|tossguide|trashify|binsight)-/.test(k) && k !== SHELL && k !== RUNTIME)
+            .filter((k) => /^trashifyyeg-/.test(k) && k !== SHELL && k !== RUNTIME)
             .map((k) => caches.delete(k)),
         ),
       )
