@@ -516,18 +516,17 @@ function tabbar() {
 
 function leaderboardBlock() {
   const lb = state.leaderboard;
-  if (lb.status === 'loading') return '<p class="muted" role="status">Loading leaderboard…</p>';
+  if (lb.status === 'loading') return '<p class="muted" role="status">Loading…</p>';
   if (lb.status === 'offline')
-    return `<div class="callout warn" role="status"><strong>Leaderboard offline.</strong> Your own tally still works, and scans will be sent when we’re back online. <button type="button" class="link-btn" data-action="refresh-leaderboard">Try again</button></div>`;
-  if (!lb.rows.length)
-    return '<p class="muted">No scans yet. Pick your faculty and sort something to put it on the board.</p>';
+    return `<p class="muted" role="status"><strong>Leaderboard offline.</strong> Your tally still counts. <button type="button" class="link-btn" data-action="refresh-leaderboard">Retry</button></p>`;
+  if (!lb.rows.length) return '<p class="muted">No scans yet. Be the first!</p>';
   const max = Math.max(1, ...lb.rows.map((r) => r.itemsDiverted));
   return `<ol class="board" aria-label="Faculty leaderboard">${lb.rows
+    .slice(0, 8)
     .map(
       (r, i) => `<li ${r.faculty === state.faculty ? 'class="mine"' : ''}>
-        <div class="board-row"><span class="rank">${i + 1}</span><span class="board-name">${esc(r.faculty)}${r.faculty === state.faculty ? '<span class="you"> (you)</span>' : ''}</span><span class="board-num">${r.itemsDiverted} <small>item${r.itemsDiverted === 1 ? '' : 's'}</small></span></div>
+        <div class="board-row"><span class="rank">${i + 1}</span><span class="board-name">${esc(r.faculty)}${r.faculty === state.faculty ? '<span class="you"> (you)</span>' : ''}</span><span class="board-num">${r.itemsDiverted}</span></div>
         <div class="bar" aria-hidden="true"><span style="width:${((r.itemsDiverted / max) * 100).toFixed(1)}%"></span></div>
-        <div class="board-sub">${formatCo2(r.co2eKg)} CO₂e est. · ${r.scans} scan${r.scans === 1 ? '' : 's'}</div>
       </li>`,
     )
     .join('')}</ol>`;
@@ -538,20 +537,21 @@ function impactScreen() {
   return `
   <section class="impact" aria-labelledby="i-title">
     <h1 id="i-title" class="page-title" tabindex="-1">Your impact</h1>
-    <div class="stats">
-      <div class="stat"><span class="stat-num" data-testid="items-diverted">${t.itemsDiverted}</span><span class="stat-label">items kept out of landfill</span></div>
-      <div class="stat"><span class="stat-num" data-testid="co2e">${formatCo2(t.co2eKg)}</span><span class="stat-label">CO₂e saved (estimate)</span></div>
-      <div class="stat"><span class="stat-num">${t.scans}</span><span class="stat-label">items sorted</span></div>
+    <div class="hero-stat">
+      <span class="hero-num" data-testid="items-diverted">${t.itemsDiverted}</span>
+      <span class="hero-label">item${t.itemsDiverted === 1 ? '' : 's'} kept out of landfill</span>
+      <span class="hero-sub"><span data-testid="co2e">${formatCo2(t.co2eKg)}</span> CO₂e saved (estimate)</span>
     </div>
-    <p class="fineprint">CO₂e uses US EPA WARM v16 factors and only items we have a cited weight for, so it’s an underestimate. Stored on this device only.</p>
     <div class="card">
-      <h2>Faculty leaderboard</h2>
-      <label for="faculty" class="field-label">Your scans count for</label>
-      <select id="faculty" class="select">
-        <option value="" ${state.faculty ? '' : 'selected'}>Don’t join the leaderboard</option>
-        ${FACULTIES.map((f) => `<option ${f === state.faculty ? 'selected' : ''}>${esc(f)}</option>`).join('')}
-      </select>
-      <p class="fineprint">Only the faculty, item type and bin are sent. Never your photo.</p>
+      <div class="card-head">
+        <h2>Faculty leaderboard</h2>
+        <label for="faculty" class="sr-only">Your faculty</label>
+        <select id="faculty" class="select select-sm">
+          <option value="" ${state.faculty ? '' : 'selected'}>Pick your faculty</option>
+          ${FACULTIES.map((f) => `<option ${f === state.faculty ? 'selected' : ''}>${esc(f)}</option>`).join('')}
+        </select>
+      </div>
+      <p class="fineprint">Items kept out of landfill, by faculty</p>
       ${leaderboardBlock()}
     </div>
   </section>`;

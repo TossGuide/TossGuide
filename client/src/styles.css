@@ -916,3 +916,135 @@ code {
   padding: 1px 5px;
   border-radius: 6px;
 }
+
+/* ---------- minimal impact + about ---------- */
+.hero-stat {
+  background: var(--brand);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  display: grid;
+  gap: 2px;
+  box-shadow: var(--shadow);
+}
+.hero-num {
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.hero-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.hero-sub {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #cfe3d8;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.select-sm {
+  width: 100%; /* never wider than the card, even with long faculty names */
+  min-height: 44px;
+  font-size: 0.9rem;
+}
+.board-num {
+  font-size: 1.05rem;
+}
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.steps li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 12px 4px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(15, 30, 25, 0.08);
+}
+.steps li svg {
+  color: var(--accent);
+}
+.steps li:last-child {
+  background: var(--brand);
+  color: #fff;
+}
+.steps li:last-child svg {
+  color: #7ee0a8;
+}
+.lede {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.lede svg {
+  vertical-align: -2px;
+  color: var(--accent);
+}
+.stats-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.more {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 4px 16px;
+}
+.more summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.more[open] {
+  padding-bottom: 14px;
+}
+.more .source-list {
+  margin-bottom: 10px;
+}
+.center {
+  text-align: center;
+}
+.more summary,
+.cm summary {
+  list-style: none;
+  justify-content: space-between;
+}
+.more summary::-webkit-details-marker,
+.cm summary::-webkit-details-marker {
+  display: none;
+}
+.more summary::after,
+.cm summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--ink-2);
+  border-bottom: 2px solid var(--ink-2);
+  transform: rotate(45deg);
+  margin: -4px 4px 0 12px;
+  transition: transform 0.15s ease;
+}
+.more[open] summary::after,
+.cm[open] summary::after {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}

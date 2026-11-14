@@ -7,7 +7,7 @@ test.describe('impact tally + leaderboard', () => {
     // Pick a faculty (unique per project so parallel runs don't collide on the shared server).
     const faculty = info.project.name === 'mobile' ? 'Engineering' : 'Science';
     await page.getByRole('button', { name: 'Impact', exact: true }).click();
-    await page.getByLabel('Your scans count for').selectOption(faculty);
+    await page.getByLabel('Your faculty').selectOption(faculty);
 
     await page.getByRole('button', { name: 'Scan', exact: true }).click();
     await typeItem(page, 'pop can');
@@ -29,7 +29,9 @@ test.describe('impact tally + leaderboard', () => {
     await expect(row).toBeVisible();
     await expect(row).toContainText('(you)');
     await expect(row.locator('.board-num')).toContainText('1');
-    await expect(row.locator('.board-sub')).toContainText('2 scans');
+    // Scans (including the landfill one) are counted on the server even though the row shows only diverted items.
+    const lb = await hook(page, 'leaderboard');
+    expect(lb.rows.find((r: { faculty: string }) => r.faculty === faculty)).toMatchObject({ scans: 2, itemsDiverted: 1 });
   });
 
   test('a correction ("Not right?") replaces the scan instead of counting twice', async ({ page }) => {
