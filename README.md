@@ -4,7 +4,7 @@
 
 Built in 24 hours at **HackEd Beta 2026** (University of Alberta) by Aditya & Sanika.
 
-**Try it:** [trashifyyeg.vercel.app](https://trashifyyeg.vercel.app) · **Devpost:** [TrashifyYEG](https://devpost.com/software/trashify-53d7am) · **Pitch deck:** [PDF](docs/TrashifyYEG-pitch-deck.pdf) · [PowerPoint](docs/TrashifyYEG-pitch-deck.pptx)
+**Try it:** [trashifyyeg.vercel.app](https://trashifyyeg.vercel.app) · **Devpost:** [TrashifyYEG](https://devpost.com/software/trashifyyeg) · **Pitch deck:** [PDF](docs/TrashifyYEG-pitch-deck.pdf) · [PowerPoint](docs/TrashifyYEG-pitch-deck.pptx)
 
 <p>
   <img src="docs/screenshots/mobile-1-scan.png" width="19%" alt="Scan screen with the live camera and a framing guide">
