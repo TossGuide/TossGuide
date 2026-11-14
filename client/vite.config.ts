@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
+import { offlinePlugin } from './build/offline-plugin';
 
 export default defineConfig({
+  plugins: [offlinePlugin()],
   resolve: {
     alias: { '@binsight/shared': fileURLToPath(new URL('../shared/src', import.meta.url)) },
   },
