@@ -1,0 +1,43 @@
+{
+  "label": "SMOKE TEST (9 Wikimedia images, not venue photos)",
+  "generatedAt": "2026-11-13T21:20:42.250Z",
+  "model": "Xenova/clip-vit-base-patch32 (q8 vision encoder)",
+  "context": "edmonton-residential",
+  "images": 9,
+  "items": 9,
+  "method": "mean",
+  "temperature": 1,
+  "top1": 0.7777777777777778,
+  "top3": 1,
+  "binAccuracy": 0.8888888888888888,
+  "medianLatencyMs": 113.11138500000015,
+  "threshold": 0.55,
+  "atThreshold": {
+    "threshold": 0.55,
+    "autoAnswerRate": 0.4444444444444444,
+    "autoBinAccuracy": 1,
+    "confirmRate": 0.5555555555555556,
+    "pickerContainsTruth": 1,
+    "endToEnd": 1
+  },
+  "methodComparison": [
+    {
+      "method": "mean",
+      "top1": 0.7777777777777778,
+      "top3": 1,
+      "bin": 0.8888888888888888
+    },
+    {
+      "method": "max",
+      "top1": 0.6666666666666666,
+      "top3": 1,
+      "bin": 0.8888888888888888
+    },
+    {
+      "method": "logsumexp",
+      "top1": 0.6666666666666666,
+      "top3": 1,
+      "bin": 0.8888888888888888
+    }
+  ]
+}
