@@ -21,8 +21,7 @@ import type { Context, Outcome, RuleNode } from './types';
 
 // ---------- small helpers so each rule reads like a sentence ----------
 
-const CITY_CHECK =
-  'Check the City’s WasteWise app or call 311 before you toss it.';
+const CITY_CHECK = 'Check the City’s WasteWise app or call 311 before you toss it.';
 const CAMPUS_CHECK = 'Check the bin labels or email zerowaste@ualberta.ca.';
 
 function unclear(reason: string, context: Context, sources: string[]): Outcome {
@@ -64,7 +63,11 @@ function campusBeverage(what: string): Outcome {
   };
 }
 
-const blue = (reason: string, prep: string[] = ['Empty, clean and dry'], sources = ['edm_recycling']): Outcome => ({
+const blue = (
+  reason: string,
+  prep: string[] = ['Empty, clean and dry'],
+  sources = ['edm_recycling'],
+): Outcome => ({
   destination: 'edm_blue_bag',
   reason,
   prep,
@@ -110,7 +113,9 @@ const landfill = (reason: string, prep: string[] = []): Outcome => ({
 const campusIfClean = (cleanReason: string): RuleNode => ({
   ask: 'clean',
   yes: recyclables(cleanReason),
-  no: landfill('UofA sends unclean recyclables to Landfill: food residue contaminates the whole bag.'),
+  no: landfill(
+    'UofA sends unclean recyclables to Landfill: food residue contaminates the whole bag.',
+  ),
 });
 
 // ---------- the table ----------
@@ -157,10 +162,10 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
     'uofa-campus': landfill('UofA lists plastic coffee/pop cup lids under Landfill.'),
   },
   cold_cup: {
-    'edmonton-residential': blue('Plastic to-go cups (like cold drink cups) are accepted in recycling.', [
-      'Empty it',
-      'Keep the lid on',
-    ]),
+    'edmonton-residential': blue(
+      'Plastic to-go cups (like cold drink cups) are accepted in recycling.',
+      ['Empty it', 'Keep the lid on'],
+    ),
     'uofa-campus': unclear(
       'UofA’s guide sends cup lids and straws to Landfill but doesn’t say where clear plastic cups go.',
       'uofa-campus',
@@ -206,10 +211,10 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
         'Paper food packaging with lots of food residue that can’t be removed goes in the garbage. A few grease spots would be fine.',
         ['edm_food_scraps', 'edm_recycling'],
       ),
-      no: blue(
-        'Pizza boxes are recyclable in Edmonton: some grease spots are OK.',
-        ['Remove the liner and any food chunks (food goes in the green cart)', 'Flatten it'],
-      ),
+      no: blue('Pizza boxes are recyclable in Edmonton: some grease spots are OK.', [
+        'Remove the liner and any food chunks (food goes in the green cart)',
+        'Flatten it',
+      ]),
     },
     'uofa-campus': {
       ask: 'greasy',
@@ -218,7 +223,9 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
     },
   },
   sandwich_wrap: {
-    'edmonton-residential': blue('Fast-food paper wraps (like sandwich wraps) are accepted in recycling.'),
+    'edmonton-residential': blue(
+      'Fast-food paper wraps (like sandwich wraps) are accepted in recycling.',
+    ),
     'uofa-campus': organics('UofA Organics accepts parchment, waxed paper and paper sub wrappers.'),
   },
   plastic_utensil: {
@@ -266,42 +273,51 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
       ['Empty it'],
       ['edm_recycling', 'edm_epr'],
     ),
-    'uofa-campus': landfill('UofA lists granola bar wrappers (and similar wrappers) under Landfill.'),
+    'uofa-campus': landfill(
+      'UofA lists granola bar wrappers (and similar wrappers) under Landfill.',
+    ),
   },
   plastic_bag: {
     'edmonton-residential': blue('Shopping, bread and other plastic bags go in recycling.', [
       'Empty, clean and dry',
     ]),
-    'uofa-campus': recyclables('Clean plastic film (shopping bags, zipper bags) goes in Recyclables.', [
-      'Make sure it’s empty and clean',
-    ]),
+    'uofa-campus': recyclables(
+      'Clean plastic film (shopping bags, zipper bags) goes in Recyclables.',
+      ['Make sure it’s empty and clean'],
+    ),
   },
   plastic_wrap: {
-    'edmonton-residential': blue('Plastic overwrap, bubble wrap and food wrap are accepted in recycling.', [
-      'Empty, clean and dry',
-    ]),
+    'edmonton-residential': blue(
+      'Plastic overwrap, bubble wrap and food wrap are accepted in recycling.',
+      ['Empty, clean and dry'],
+    ),
     'uofa-campus': campusIfClean('Clean cling wrap and bubble wrap go in Recyclables.'),
   },
   yogurt_cup: {
-    'edmonton-residential': blue('Plastic tubs and food cups (yogurt, pudding) are accepted in recycling.', [
-      'Empty it',
-      'Quick rinse and dry',
-      'Leave the lid on',
-    ]),
+    'edmonton-residential': blue(
+      'Plastic tubs and food cups (yogurt, pudding) are accepted in recycling.',
+      ['Empty it', 'Quick rinse and dry', 'Leave the lid on'],
+    ),
     'uofa-campus': campusIfClean('Clean yogurt and margarine containers go in Recyclables.'),
   },
 
   // ===== Food & organics =====
   food_scraps: {
-    'edmonton-residential': green('All food scraps, including meat, bones, bread and leftovers, go in the green cart.'),
+    'edmonton-residential': green(
+      'All food scraps, including meat, bones, bread and leftovers, go in the green cart.',
+    ),
     'uofa-campus': organics('Food scraps, including meat, bones and grains, go in Organics.'),
   },
   fruit_peel: {
-    'edmonton-residential': green('Fruit and vegetable peels, pits and cores go in the green cart.'),
+    'edmonton-residential': green(
+      'Fruit and vegetable peels, pits and cores go in the green cart.',
+    ),
     'uofa-campus': organics('Fruit and vegetable scraps go in Organics.'),
   },
   coffee_grounds: {
-    'edmonton-residential': green('Coffee grounds, filters, loose tea and tea bags go in the green cart.'),
+    'edmonton-residential': green(
+      'Coffee grounds, filters, loose tea and tea bags go in the green cart.',
+    ),
     'uofa-campus': organics('Coffee grounds, tea bags and coffee filters go in Organics.'),
   },
   napkin: {
@@ -331,7 +347,9 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
       'Flatten it',
       'Too big for the bag? Bundle with tape and put it under your blue bag',
     ]),
-    'uofa-campus': mixedPaper('Flattened cardboard boxes go in Mixed Paper.', ['Flatten it (required)']),
+    'uofa-campus': mixedPaper('Flattened cardboard boxes go in Mixed Paper.', [
+      'Flatten it (required)',
+    ]),
   },
   paper_bag: {
     'edmonton-residential': blue('Paper bags go in recycling.', ['Empty it']),
@@ -359,7 +377,10 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
     'uofa-campus': recyclables('Aluminum foil, pie plates and food containers go in Recyclables.'),
   },
   food_can: {
-    'edmonton-residential': blue('Food cans go in recycling.', ['Empty and rinse', 'Push the lid inside the can']),
+    'edmonton-residential': blue('Food cans go in recycling.', [
+      'Empty and rinse',
+      'Push the lid inside the can',
+    ]),
     'uofa-campus': recyclables('Steel and tin food cans go in Recyclables.'),
   },
   glass_jar: {
@@ -367,10 +388,15 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
       'Empty, clean and dry',
       'Remove the lid: it goes in recycling separately',
     ]),
-    'uofa-campus': recyclables('Glass jars go in Recyclables.', ['Empty and rinse it', 'Remove the cap']),
+    'uofa-campus': recyclables('Glass jars go in Recyclables.', [
+      'Empty and rinse it',
+      'Remove the cap',
+    ]),
   },
   aerosol_can: {
-    'edmonton-residential': blue('Empty aerosol cans go in recycling.', ['It must be completely empty']),
+    'edmonton-residential': blue('Empty aerosol cans go in recycling.', [
+      'It must be completely empty',
+    ]),
     'uofa-campus': recyclables('Empty, non-hazardous aerosol cans go in Recyclables.', [
       'It must be completely empty',
     ]),
@@ -391,7 +417,10 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
         destination: 'uofa_special',
         reason:
           'Lithium-ion batteries never go in the campus dry-cell battery bins. Email zerowaste@ualberta.ca to arrange removal.',
-        prep: ['Tape the terminals or put it in a plastic bag', 'Damaged or swollen? Keep it in a plastic container'],
+        prep: [
+          'Tape the terminals or put it in a plastic bag',
+          'Damaged or swollen? Keep it in a plastic container',
+        ],
         sources: ['uofa_how_to'],
       },
       no: {
@@ -420,7 +449,8 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
   cable: {
     'edmonton-residential': {
       destination: 'eco_station',
-      reason: 'If it has a battery or a cord, it goes to an Eco Station (free). Cords tangle sorting machines.',
+      reason:
+        'If it has a battery or a cord, it goes to an Eco Station (free). Cords tangle sorting machines.',
       sources: ['edm_eco_station', 'edm_poster', 'edm_recycling'],
     },
     'uofa-campus': {
@@ -443,8 +473,12 @@ export const RULES: Record<string, Record<Context, RuleNode>> = {
     ),
   },
   mask: {
-    'edmonton-residential': black('Masks and other hygiene items go in the garbage.', ['edm_poster']),
-    'uofa-campus': landfill('Masks aren’t accepted in Recyclables, Mixed Paper or Organics, so they go to Landfill.'),
+    'edmonton-residential': black('Masks and other hygiene items go in the garbage.', [
+      'edm_poster',
+    ]),
+    'uofa-campus': landfill(
+      'Masks aren’t accepted in Recyclables, Mixed Paper or Organics, so they go to Landfill.',
+    ),
   },
   gloves: {
     'edmonton-residential': black('Disposable gloves are hygiene items: garbage.', ['edm_poster']),

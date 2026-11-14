@@ -145,3 +145,6 @@ export type Result =
       answers: Partial<Record<QuestionId, boolean>>;
     }
   | { ok: false; error: 'unknown_item' | 'invalid_context' | 'empty_input'; message: string };
+
+/** Answers to contamination-check questions collected so far. */
+export type Answers = Partial<Record<QuestionId, boolean>>;
