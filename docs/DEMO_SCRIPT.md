@@ -1,4 +1,4 @@
-# Trashify: 5-minute demo script
+# TossGuide: 5-minute demo script
 
 **Before judging:** laptop on the venue Wi-Fi, app open at least once (model cached), phone and laptop charged.
 Props on the table: coffee cup with lid, pizza box, pop can, chip bag, battery (AA), banana peel. Faculty set on the Impact tab.

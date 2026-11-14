@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Trashify one-command deploy (production build + leaderboard API + HTTPS tunnel).
+# TossGuide one-command deploy (production build + leaderboard API + HTTPS tunnel).
 #
 #   scripts/deploy.sh               # update main, rebuild, restart the app, keep the tunnel (same link)
 #   scripts/deploy.sh --new-tunnel  # same, but also restart the tunnel (you get a NEW link)
@@ -8,20 +8,20 @@
 #   1. git checkout main && git pull (refuses if you have uncommitted changes)
 #   2. npm install + production build (no test hook)
 #   3. frees the port (stops our old server, and any Docker container publishing that port)
-#   4. starts the server in tmux session "trashify"  ->  http://localhost:$PORT
+#   4. starts the server in tmux session "tossguide"  ->  http://localhost:$PORT
 #   5. starts a Cloudflare quick tunnel in tmux session "tunnel" (HTTPS link, needed for the
 #      phone camera) and prints the link. The link stays the same until the tunnel restarts.
 #
-# Settings (env vars): PORT (8080), DATA_FILE (/var/lib/trashify/scans.json), REPO (repo root).
+# Settings (env vars): PORT (8080), DATA_FILE (/var/lib/tossguide/scans.json), REPO (repo root).
 # The server also reads .env in the repo root (DATABASE_URL for the PostgreSQL leaderboard,
 # TRUST_PROXY); see .env.example. Real env vars set here win over .env.
-# Logs: tmux attach -t trashify  /  tmux attach -t tunnel   (detach: Ctrl+B then D)
+# Logs: tmux attach -t tossguide  /  tmux attach -t tunnel   (detach: Ctrl+B then D)
 set -euo pipefail
 
 PORT="${PORT:-8080}"
-DATA_FILE="${DATA_FILE:-/var/lib/trashify/scans.json}"
+DATA_FILE="${DATA_FILE:-/var/lib/tossguide/scans.json}"
 REPO="${REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-TUNNEL_LOG="${TUNNEL_LOG:-$HOME/.trashify-tunnel.log}"
+TUNNEL_LOG="${TUNNEL_LOG:-$HOME/.tossguide-tunnel.log}"
 NEW_TUNNEL=0
 [[ "${1:-}" == "--new-tunnel" ]] && NEW_TUNNEL=1
 
@@ -47,7 +47,7 @@ npm install --no-audit --no-fund
 env -u VITE_TEST_HOOK npm run build
 
 say "3/5 Freeing port $PORT"
-tmux kill-session -t trashify 2>/dev/null && echo "stopped old 'trashify' session" || true
+tmux kill-session -t tossguide 2>/dev/null && echo "stopped old 'tossguide' session" || true
 if command -v docker >/dev/null; then
   for c in $(sudo docker ps -q --filter "publish=$PORT"); do
     name=$(sudo docker inspect -f '{{.Name}}' "$c" | tr -d /)
@@ -71,13 +71,13 @@ fi
 say "4/5 Starting the server on port $PORT"
 sudo mkdir -p "$(dirname "$DATA_FILE")"
 sudo chown "$(id -u):$(id -g)" "$(dirname "$DATA_FILE")"
-tmux new-session -d -s trashify -c "$REPO" \
+tmux new-session -d -s tossguide -c "$REPO" \
   "PATH='$PATH' PORT='$PORT' DATA_FILE='$DATA_FILE' npm start; echo 'server exited'; read"
 for _ in $(seq 1 30); do
   curl -fs "http://localhost:$PORT/api/health" >/dev/null && break
   sleep 1
 done
-curl -fs "http://localhost:$PORT/api/health" >/dev/null || die "server didn't start; run: tmux attach -t trashify"
+curl -fs "http://localhost:$PORT/api/health" >/dev/null || die "server didn't start; run: tmux attach -t tossguide"
 echo "server is up: http://localhost:$PORT"
 
 say "5/5 HTTPS tunnel"
@@ -96,17 +96,17 @@ else
 fi
 URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$TUNNEL_LOG" | head -1 || true)
 [[ -n "$URL" ]] || die "no tunnel link yet; run: tmux attach -t tunnel"
-echo "$URL" > "$HOME/trashify-url.txt"
+echo "$URL" > "$HOME/tossguide-url.txt"
 
 IP=$(curl -4 -fs -m 5 ifconfig.me || echo "<server-ip>")
 cat <<EOF
 
-  Trashify is live (commit $(git rev-parse --short HEAD) on main)
+  TossGuide is live (commit $(git rev-parse --short HEAD) on main)
 
   Phone / judges (HTTPS, camera works):  $URL
   Direct (HTTP, no camera on phones):    http://$IP:$PORT
   Leaderboard data:                      $DATA_FILE
 
-  Logs:  tmux attach -t trashify   |   tmux attach -t tunnel   (leave with Ctrl+B, then D)
-  The link is also saved in ~/trashify-url.txt
+  Logs:  tmux attach -t tossguide   |   tmux attach -t tunnel   (leave with Ctrl+B, then D)
+  The link is also saved in ~/tossguide-url.txt
 EOF

@@ -4,7 +4,7 @@
  * It takes a factory instead of `new Worker(...)` directly so unit tests can pass
  * a fake worker, and so the Playwright test hook can swap in a stub classifier.
  */
-import type { Candidate } from '@trashify/shared/ml/aggregate';
+import type { Candidate } from '@tossguide/shared/ml/aggregate';
 import type { Pixels } from '../lib/image';
 import type { FromWorker, ToWorker } from './protocol';
 
@@ -96,7 +96,7 @@ export class WorkerClassifier implements Classifier {
   }
 }
 
-/** Deterministic stand-in used by tests (via the window.__trashify hook). */
+/** Deterministic stand-in used by tests (via the window.__tossguide hook). */
 export class StubClassifier implements Classifier {
   ready = true;
   constructor(public candidates: Candidate[] = []) {}

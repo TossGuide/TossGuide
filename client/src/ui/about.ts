@@ -2,10 +2,10 @@
  * About / how it works: the pipeline, the MEASURED accuracy (straight from
  * `npm run eval`, never typed in by hand), privacy and data sources.
  */
-import summary from '@trashify/shared/ml/eval-summary.json';
-import calibration from '@trashify/shared/ml/calibration.json';
-import { SOURCES } from '@trashify/shared/rules/sources';
-import { ITEMS } from '@trashify/shared/rules/items';
+import summary from '@tossguide/shared/ml/eval-summary.json';
+import calibration from '@tossguide/shared/ml/calibration.json';
+import { SOURCES } from '@tossguide/shared/rules/sources';
+import { ITEMS } from '@tossguide/shared/rules/items';
 
 const pct = (x: number) => `${(x * 100).toFixed(0)}%`;
 const esc = (s: string) =>
@@ -62,7 +62,7 @@ export function aboutScreen(): string {
   const isVenue = /venue/i.test(s.label) && !/smoke|wikimedia|commons|dev/i.test(s.label);
   return `
   <section class="about" aria-labelledby="a-title">
-    <h1 id="a-title" class="page-title" tabindex="-1">How Trashify works</h1>
+    <h1 id="a-title" class="page-title" tabindex="-1">How TossGuide works</h1>
 
     <ol class="pipeline" aria-label="Pipeline">
       <li><strong>Camera</strong><span>Your photo, on your phone</span></li>
@@ -81,7 +81,7 @@ export function aboutScreen(): string {
         <div class="stat"><span class="stat-num">${pct(s.top3)}</span><span class="stat-label">right item in top 3</span></div>
       </div>
       <p class="fineprint">
-        When Trashify answers without asking (${pct(a.autoAnswerRate)} of photos at threshold ${calibration.threshold}), the bin is right ${pct(a.autoBinAccuracy)} of the time.
+        When TossGuide answers without asking (${pct(a.autoAnswerRate)} of photos at threshold ${calibration.threshold}), the bin is right ${pct(a.autoBinAccuracy)} of the time.
         The other ${pct(a.confirmRate)} get a one-tap “Is this a…?” question${a.confirmRate > 0 ? `, and the right item is in that list ${pct(a.pickerContainsTruth)} of the time` : ''}.
         ${s.images} photos of ${s.items} items · median ${Math.round(s.medianLatencyMs)} ms per photo on a laptop CPU · ${esc(s.model)}.
       </p>

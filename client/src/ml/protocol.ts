@@ -1,5 +1,5 @@
 /** Messages between the UI thread and the model Web Worker. */
-import type { Candidate } from '@trashify/shared/ml/aggregate';
+import type { Candidate } from '@tossguide/shared/ml/aggregate';
 
 export type ToWorker =
   | { type: 'load' }

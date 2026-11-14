@@ -1,4 +1,4 @@
-# Trashify: Progress Log
+# TossGuide: Progress Log
 
 > ⏰ **Deadline: Sat Nov 14, 12:00 pm MT.** Feature-complete by 6:00 am, final push by **11:00 am**.
 > **No commits, pushes or merges after 12:00 pm.** Make the repo **public** before submitting on Devpost.
@@ -51,7 +51,7 @@
 - **Top-2 rule kept literal.** Even at 95% confidence, a runner-up in a different bin means we ask (the blind tests require it). On the dev set that's 62% of photos asking for a tap, at 97.1% bin accuracy when we do answer.
 - **Dev set instead of guessing the threshold.** No venue photos yet, so we tuned on 93 hand-reviewed Wikimedia Commons object photos (credits in eval/dev-commons/CREDITS.md; photos showing people removed). Every number is labelled with its data set.
 - **No vite-plugin-pwa.** A small hand-written service worker + Vite plugin (client/build/offline-plugin.ts) that the team can read end to end.
-- **Renamed BinSight → Trashify** (Nov 14). Everything was renamed: UI, docs, packages (`@trashify/*`), storage keys, caches, server, scripts, database. The blind tests changed only in import paths and temp-file names, with no assertions touched. Old `binsight.*` localStorage keys and `binsight-*` service-worker caches are migrated or cleaned up on first load, so existing tallies survive.
+- **Renamed BinSight → Trashify → TossGuide** (Nov 14). Everything was renamed both times: UI, docs, packages (`@tossguide/*`), storage keys, caches, server, scripts, database. The blind tests changed only in import paths and temp-file names, with no assertions touched. Old `binsight.*`/`trashify.*` localStorage keys and old service-worker caches are migrated or cleaned up on first load, so existing tallies survive.
 - **Paths:** the spec says `src/rules/` and `src/ml/`. These live in `shared/src/rules` and `shared/src/ml` so the client, server and eval harness all share one copy.
 
 ## Open problems

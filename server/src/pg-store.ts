@@ -7,8 +7,8 @@
  * the shared, cited impact module, and stored with the row.
  */
 import pg from 'pg';
-import { impactOf } from '@trashify/shared/impact/impact';
-import type { DestinationId } from '@trashify/shared/rules/types';
+import { impactOf } from '@tossguide/shared/impact/impact';
+import type { DestinationId } from '@tossguide/shared/rules/types';
 import type { FacultyTotals, LeaderboardStore, StoredScan } from './store';
 
 const SCHEMA = `
