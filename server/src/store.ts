@@ -15,8 +15,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
-import { impactOf } from '@tossguide/shared/impact/impact';
-import type { DestinationId } from '@tossguide/shared/rules/types';
+import { impactOf } from '@trashifyyeg/shared/impact/impact';
+import type { DestinationId } from '@trashifyyeg/shared/rules/types';
 
 export const StoredScan = z.object({
   faculty: z.string().max(100),

@@ -2,7 +2,7 @@
 // Spec: "top-1 confidence >= threshold AND top-2 map to the same destination -> answer directly;
 // otherwise show the top 3 for the user to confirm. It must never confidently give a wrong answer."
 import { describe, it, expect } from 'vitest';
-import { decide, DEFAULT_THRESHOLD } from '@tossguide/shared/ml/decide';
+import { decide, DEFAULT_THRESHOLD } from '@trashifyyeg/shared/ml/decide';
 
 const HOME = 'edmonton-residential' as const;
 const CAMPUS = 'uofa-campus' as const;

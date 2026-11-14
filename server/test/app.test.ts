@@ -7,14 +7,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createApp } from '../src/app';
-import { impactOf } from '@tossguide/shared/impact/impact';
+import { impactOf } from '@trashifyyeg/shared/impact/impact';
 import { createRateLimiter } from '../src/rate-limit';
 import { ScanStore } from '../src/store';
 
 let dir: string;
 let file: string;
 beforeEach(() => {
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tossguide-server-'));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), 'trashifyyeg-server-'));
   file = path.join(dir, 'scans.json');
 });
 afterEach(() => fs.rmSync(dir, { recursive: true, force: true }));

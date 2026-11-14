@@ -1,5 +1,5 @@
 /**
- * TossGuide service worker (offline mode). Plain JS on purpose: it's copied as-is,
+ * TrashifyYEG service worker (offline mode). Plain JS on purpose: it's copied as-is,
  * with the precache list and version injected at build time (build/offline-plugin.ts).
  *
  * Strategy:
@@ -12,8 +12,8 @@
  */
 const PRECACHE = self.__PRECACHE__;
 const VERSION = self.__VERSION__;
-const SHELL = `tossguide-shell-${VERSION}`;
-const RUNTIME = `tossguide-runtime-${VERSION}`;
+const SHELL = `trashifyyeg-shell-${VERSION}`;
+const RUNTIME = `trashifyyeg-runtime-${VERSION}`;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -31,8 +31,8 @@ self.addEventListener('activate', (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            // Also clears caches from before the renames (the app used to be BinSight, then Trashify).
-            .filter((k) => /^(tossguide|trashify|binsight)-/.test(k) && k !== SHELL && k !== RUNTIME)
+            // Also clears caches from before the renames (the app used to be BinSight, then Trashify, then TossGuide).
+            .filter((k) => /^(trashifyyeg|tossguide|trashify|binsight)-/.test(k) && k !== SHELL && k !== RUNTIME)
             .map((k) => caches.delete(k)),
         ),
       )

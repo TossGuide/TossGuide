@@ -1,5 +1,5 @@
 /**
- * Core types for the TossGuide rules engine.
+ * Core types for the TrashifyYEG rules engine.
  *
  * The big idea: the vision model only ever answers "what IS this?" (an item id).
  * Deciding "where does it GO?" is the job of this hand-written, cited rules data,

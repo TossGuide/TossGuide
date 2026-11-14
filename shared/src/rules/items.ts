@@ -1,7 +1,7 @@
 import type { ItemType } from './types';
 
 /**
- * The item vocabulary: everything TossGuide can recognise.
+ * The item vocabulary: everything TrashifyYEG can recognise.
  *
  * `prompts` are what the zero-shot vision model compares a photo against. Each
  * item gets several phrasings because CLIP-style models are sensitive to wording;

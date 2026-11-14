@@ -1,9 +1,9 @@
-# TossGuide: Public API contract (for tests)
+# TrashifyYEG: Public API contract (for tests)
 
-Tests import from these module paths (Vitest alias `@tossguide/shared` → `shared/src`).
+Tests import from these module paths (Vitest alias `@trashifyyeg/shared` → `shared/src`).
 Types live in `shared/src/rules/types.ts`.
 
-## Rules engine: `@tossguide/shared/rules/engine`
+## Rules engine: `@trashifyyeg/shared/rules/engine`
 
 ```ts
 type Context = 'edmonton-residential' | 'uofa-campus';
@@ -39,7 +39,7 @@ Item ids live in `shared/src/rules/items.ts` (`ITEMS`, `ITEMS_BY_ID`). Key ids: 
 
 Question ids by item: `pizza_box` → `greasy` (both contexts); `paper_takeout` → `food_residue` (home); `battery` → `lithium` (campus); `plastic_takeout`, `plastic_wrap`, `yogurt_cup` → `clean` (campus).
 
-## Decision logic: `@tossguide/shared/ml/decide`
+## Decision logic: `@trashifyyeg/shared/ml/decide`
 
 ```ts
 interface Candidate { itemId: string; score: number }   // score = calibrated probability 0..1
@@ -54,14 +54,14 @@ DEFAULT_THRESHOLD: number  // tuned from the eval set
 - Answer directly only if top-1 score ≥ threshold **and** top-1 and top-2 have the same `possibleDestinations` set (for the context). A lone candidate above threshold → answer.
 - Otherwise confirm with the top 3. Empty, NaN or unknown-id-only input → `confirm` / `no_candidates` with `candidates: []`. Never throws. Unknown ids are dropped.
 
-## Score aggregation: `@tossguide/shared/ml/aggregate`
+## Score aggregation: `@trashifyyeg/shared/ml/aggregate`
 
 ```ts
 aggregate(promptScores: { itemId: string; logit: number }[], opts?: { method?: 'max' | 'mean' | 'logsumexp'; temperature?: number }): Candidate[]
 ```
 Groups prompt logits by item, combines them per `method` (default `'max'`), then applies softmax over items with `temperature` (default 1). Returns all items sorted best first; scores sum to 1.
 
-## Impact: `@tossguide/shared/impact/impact`
+## Impact: `@trashifyyeg/shared/impact/impact`
 
 ```ts
 interface Tally { scans: number; itemsDiverted: number; co2eKg: number }
@@ -77,7 +77,7 @@ addScan(tally: Tally, itemId: string, destinationId: DestinationId): Tally   // 
 
 ```ts
 createApp(opts: { dataFile: string; rateLimit?: { windowMs: number; max: number }; logger?: (msg: string) => void }): express.Express
-FACULTIES: readonly string[]   // exported from @tossguide/shared/faculties
+FACULTIES: readonly string[]   // exported from @trashifyyeg/shared/faculties
 ```
 - `GET /api/health` → `200 { ok: true }`
 - `POST /api/scan` body `{ faculty: string (one of FACULTIES), itemId: string (known id), destination: DestinationId, divertedFromLandfill: boolean }` → `201 { ok: true }`. Invalid body → `400 { ok: false, error }`. Over rate limit (per IP) → `429`.

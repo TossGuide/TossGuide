@@ -1,6 +1,6 @@
 {
-  "name": "TossGuide: which bin?",
-  "short_name": "TossGuide",
+  "name": "TrashifyYEG: which bin?",
+  "short_name": "TrashifyYEG",
   "description": "Point your camera at an item to see which Edmonton or UofA bin it goes in, and why.",
   "start_url": "/",
   "scope": "/",

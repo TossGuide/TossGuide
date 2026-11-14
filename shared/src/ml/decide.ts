@@ -1,7 +1,7 @@
 /**
  * Should we answer, or ask the user to confirm?
  *
- * TossGuide's promise is "never confidently wrong". A wrong bin is worse than a
+ * TrashifyYEG's promise is "never confidently wrong". A wrong bin is worse than a
  * quick tap, so we only answer directly when BOTH:
  *   1. the top guess is confident (score >= threshold), and
  *   2. the runner-up would end up in the same bin(s) anyway, so even if we

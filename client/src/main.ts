@@ -1,25 +1,25 @@
 /**
- * TossGuide app: a small state machine, rendered with plain DOM (no framework).
+ * TrashifyYEG app: a small state machine, rendered with plain DOM (no framework).
  *
  *   scan ──(photo)──> thinking ──> decide() ─┬─ answer ──> resolve() ─┬─ final ──────> result
  *    │                                        │                        └─ needs_answer ─> question ─> (resolve again)
  *    └──(type it)──> lookupTyped() ───────────┴─ confirm ─> picker ──(user picks)──> resolve()
  *
  * The model only says what the item IS. Where it GOES always comes from the cited
- * rules engine (@tossguide/shared/rules).
+ * rules engine (@trashifyyeg/shared/rules).
  */
 import '@fontsource-variable/inter';
 import './styles.css';
-import { decide, DEFAULT_THRESHOLD, type Decision } from '@tossguide/shared/ml/decide';
-import type { Candidate } from '@tossguide/shared/ml/aggregate';
-import { lookupTyped, resolve } from '@tossguide/shared/rules/engine';
-import { ITEMS, getItem } from '@tossguide/shared/rules/items';
-import { CONTEXTS, type Answers, type Context, type QuestionId, type Result } from '@tossguide/shared/rules/types';
+import { decide, DEFAULT_THRESHOLD, type Decision } from '@trashifyyeg/shared/ml/decide';
+import type { Candidate } from '@trashifyyeg/shared/ml/aggregate';
+import { lookupTyped, resolve } from '@trashifyyeg/shared/rules/engine';
+import { ITEMS, getItem } from '@trashifyyeg/shared/rules/items';
+import { CONTEXTS, type Answers, type Context, type QuestionId, type Result } from '@trashifyyeg/shared/rules/types';
 import { fileToPixels, videoToPixels, type Pixels } from './lib/image';
 import { load as loadStored, migrateLegacyKeys, save as saveStored } from './lib/storage';
 import { StubClassifier, WorkerClassifier, type Classifier } from './ml/classifier';
 import { icon } from './ui/icons';
-import { FACULTIES } from '@tossguide/shared/faculties';
+import { FACULTIES } from '@trashifyyeg/shared/faculties';
 import { countResult, EMPTY_TALLY_STATE, formatCo2, sanitize, type TallyState } from './lib/tally';
 import { flushOutbox, getLeaderboard, postScan, type Leaderboard, type ScanPayload } from './lib/api';
 import { aboutScreen } from './ui/about';
@@ -54,7 +54,7 @@ const newScanId = () => `${Date.now().toString(36)}-${(scanCounter++).toString(3
 
 const state = {
   screen: 'scan' as Screen,
-  context: loadStored<Context>('tossguide.context', 'edmonton-residential', isContext),
+  context: loadStored<Context>('trashifyyeg.context', 'edmonton-residential', isContext),
   model: { status: 'loading' as 'loading' | 'ready' | 'error', progress: 0, error: '' },
   camera: { status: 'idle' as 'idle' | 'starting' | 'live' | 'denied' | 'unavailable' },
   pending: null as Pending | null,
@@ -64,14 +64,14 @@ const state = {
   typedQuery: '',
   error: '',
   lastPrediction: null as { candidates: Candidate[]; decision: Decision; ms: number } | null,
-  tally: sanitize(loadStored<unknown>('tossguide.tally', EMPTY_TALLY_STATE, isAnything)) as TallyState,
-  faculty: loadStored<string | null>('tossguide.faculty', null, (v): v is string | null => v === null || isFaculty(v)),
+  tally: sanitize(loadStored<unknown>('trashifyyeg.tally', EMPTY_TALLY_STATE, isAnything)) as TallyState,
+  faculty: loadStored<string | null>('trashifyyeg.faculty', null, (v): v is string | null => v === null || isFaculty(v)),
   leaderboard: { status: 'loading' } as Leaderboard | { status: 'loading' },
   /** Set by "Not right?": the next answer replaces this scan instead of adding one. */
   correcting: null as string | null,
   /** What the last result did to the tally (shown on the result card). */
   lastCount: null as { diverted: boolean; replaced: boolean } | null,
-  soundOn: loadStored<boolean>('tossguide.sound', false, (v): v is boolean => typeof v === 'boolean'),
+  soundOn: loadStored<boolean>('trashifyyeg.sound', false, (v): v is boolean => typeof v === 'boolean'),
   offlineReady: false,
 };
 // Browsers block audio until a user gesture, so a saved "sound on" takes effect on the first tap.
@@ -255,7 +255,7 @@ function handleTyped(text: string) {
 function setContext(c: Context) {
   if (c === state.context) return;
   state.context = c;
-  saveStored('tossguide.context', c);
+  saveStored('trashifyyeg.context', c);
   // Re-sort the current item under the new rules: great for showing home vs campus differences.
   if ((state.screen === 'result' || state.screen === 'question') && state.pending) {
     state.pending = { ...state.pending, answers: {} };
@@ -288,7 +288,7 @@ onFinalResult((r, p) => {
   state.lastCount = { diverted, replaced };
   sound.bin(r.destination.id);
   if (diverted && !replaced) sound.collect(next.streak);
-  saveStored('tossguide.tally', next);
+  saveStored('trashifyyeg.tally', next);
   if (state.faculty) {
     pendingPost = {
       scanId: p.scanId,
@@ -329,7 +329,7 @@ function openImpact() {
 function topbar() {
   return `
   <header class="topbar">
-    <div class="logo"><img class="logo-mark" src="/favicon.svg" alt="" />TossGuide</div>
+    <div class="logo"><img class="logo-mark" src="/favicon.svg" alt="" />TrashifyYEG</div>
     <button type="button" class="icon-btn" data-action="sound" aria-pressed="${state.soundOn}" aria-label="Sound effects">${icon(state.soundOn ? 'sound' : 'mute', 22)}</button>
     <div class="context-toggle" role="group" aria-label="Sorting rules">
       ${CONTEXTS.map(
@@ -629,7 +629,7 @@ $app.addEventListener('click', (e) => {
     case 'sound':
       state.soundOn = !state.soundOn;
       sound.enabled = state.soundOn;
-      saveStored('tossguide.sound', state.soundOn);
+      saveStored('trashifyyeg.sound', state.soundOn);
       if (state.soundOn) sound.bin('edm_blue_bag'); // a preview, so you know it's on
       render();
       break;
@@ -667,7 +667,7 @@ $app.addEventListener('change', async (e) => {
   const input = e.target as HTMLInputElement;
   if (input.id === 'faculty') {
     state.faculty = isFaculty(input.value) ? input.value : null;
-    saveStored('tossguide.faculty', state.faculty);
+    saveStored('trashifyyeg.faculty', state.faculty);
     announce(state.faculty ? `Your scans now count for ${state.faculty}.` : 'Leaderboard off.');
     return render();
   }
@@ -723,20 +723,20 @@ async function loadModel() {
 }
 
 // ---------------------------------------------------------------------------
-// Test hook (non-production builds only): window.__tossguide for Playwright
+// Test hook (non-production builds only): window.__trashifyyeg for Playwright
 // ---------------------------------------------------------------------------
 
 declare global {
   interface Window {
-    __tossguide?: Record<string, unknown>;
+    __trashifyyeg?: Record<string, unknown>;
   }
 }
 const TEST_HOOK = import.meta.env.DEV || import.meta.env.VITE_TEST_HOOK === '1';
 
 function exposeTestHook() {
   if (!TEST_HOOK) return;
-  window.__tossguide = {
-    ...(window.__tossguide ?? {}),
+  window.__trashifyyeg = {
+    ...(window.__trashifyyeg ?? {}),
     modelReady: state.model.status === 'ready',
     lastPrediction: state.lastPrediction,
     lastResult: state.result,

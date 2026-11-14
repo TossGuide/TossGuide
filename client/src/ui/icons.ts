@@ -1,5 +1,5 @@
 /** Inline SVG icons (no network, no icon font). Each destination has text + icon, never colour alone. */
-import type { Destination } from '@tossguide/shared/rules/types';
+import type { Destination } from '@trashifyyeg/shared/rules/types';
 
 const svg = (body: string, size = 24) =>
   `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${body}</svg>`;
