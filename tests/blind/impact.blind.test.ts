@@ -2,7 +2,7 @@
 // Spec: count items correctly diverted from landfill + estimated CO2e; never count landfill items;
 // no NaN or negative values.
 import { describe, it, expect } from 'vitest';
-import { EMPTY_TALLY, impactOf, addScan } from '@tossguide/shared/impact/impact';
+import { EMPTY_TALLY, impactOf, addScan } from '@trashifyyeg/shared/impact/impact';
 
 const NOT_DIVERTED = ['edm_black_cart', 'uofa_landfill', 'check_local'] as const;
 const DIVERTING = [

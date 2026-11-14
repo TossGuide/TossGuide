@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { countResult, EMPTY_TALLY_STATE, formatCo2, sanitize } from '../src/lib/tally';
-import { impactOf } from '@tossguide/shared/impact/impact';
+import { impactOf } from '@trashifyyeg/shared/impact/impact';
 
 describe('countResult', () => {
   it('counts a diverted item and grows the streak', () => {
@@ -48,14 +48,16 @@ describe('sanitize / formatCo2', () => {
   });
 });
 
-describe('migrateLegacyKeys (BinSight -> Trashify -> TossGuide renames)', () => {
+describe('migrateLegacyKeys (BinSight -> Trashify -> TossGuide -> TrashifyYEG renames)', () => {
   it('moves old keys to the new names once; the newest name wins; current data is never overwritten', async () => {
     const m = new Map<string, string>([
       ['binsight.tally', '{"scans":1}'],
       ['trashify.tally', '{"scans":3}'],
+      ['tossguide.tally', '{"scans":5}'],
+      ['tossguide.sound', 'true'],
       ['binsight.context', '"uofa-campus"'],
       ['binsight.faculty', '"Science"'],
-      ['tossguide.faculty', '"Arts"'],
+      ['trashifyyeg.faculty', '"Arts"'],
       ['other', 'x'],
     ]);
     const ls = {
@@ -68,10 +70,11 @@ describe('migrateLegacyKeys (BinSight -> Trashify -> TossGuide renames)', () => 
     (globalThis as any).localStorage = ls;
     const { migrateLegacyKeys } = await import('../src/lib/storage');
     migrateLegacyKeys();
-    expect(m.get('tossguide.tally')).toBe('{"scans":3}'); // Trashify-era value beats BinSight-era
-    expect(m.get('tossguide.context')).toBe('"uofa-campus"');
-    expect(m.get('tossguide.faculty')).toBe('"Arts"');
-    expect([...m.keys()].some((k) => /^(binsight|trashify)\./.test(k))).toBe(false);
+    expect(m.get('trashifyyeg.tally')).toBe('{"scans":5}'); // newest old name wins
+    expect(m.get('trashifyyeg.sound')).toBe('true');
+    expect(m.get('trashifyyeg.context')).toBe('"uofa-campus"');
+    expect(m.get('trashifyyeg.faculty')).toBe('"Arts"');
+    expect([...m.keys()].some((k) => /^(binsight|trashify|tossguide)\./.test(k))).toBe(false);
     expect(m.get('other')).toBe('x');
     delete (globalThis as any).localStorage;
   });

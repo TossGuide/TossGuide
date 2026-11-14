@@ -2,8 +2,8 @@
  * About / how it works: the pipeline, the MEASURED accuracy (straight from
  * `npm run eval`, never typed in by hand), privacy and data sources.
  */
-import summary from '@tossguide/shared/ml/eval-summary.json';
-import { SOURCES } from '@tossguide/shared/rules/sources';
+import summary from '@trashifyyeg/shared/ml/eval-summary.json';
+import { SOURCES } from '@trashifyyeg/shared/rules/sources';
 import { icon } from './icons';
 
 const pct = (x: number) => `${(x * 100).toFixed(0)}%`;

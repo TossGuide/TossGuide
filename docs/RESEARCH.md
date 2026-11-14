@@ -1,4 +1,4 @@
-# TossGuide: Research Findings
+# TrashifyYEG: Research Findings
 
 Researched Fri Nov 13, 2026 (HackEd Beta 2026). Every rule in `shared/src/rules/rules.ts` cites one of the sources below, by id.
 
@@ -20,9 +20,9 @@ Alberta's **Extended Producer Responsibility (EPR)** regulation moved recycling 
 - **foam packaging** (takeout containers, cups, meat trays, blocks)
 - "All plastic packaging is accepted in your recycling, regardless of this symbol" (resin codes don't matter any more)
 
-Most online sorting guides (and AI chatbots) still say coffee cups and chip bags are garbage. **That answer is now wrong for Edmonton homes.** This is TossGuide's clearest "hyper-local and current" advantage.
+Most online sorting guides (and AI chatbots) still say coffee cups and chip bags are garbage. **That answer is now wrong for Edmonton homes.** This is TrashifyYEG's clearest "hyper-local and current" advantage.
 
-**Conflict noted:** the City's [Waste Sorting in the Public Space][edm_public] page (City facilities and parks sorting stations) still lists "chip bags/candy wrappers" and "coffee cups" under Garbage. EPR covers the *residential* sector only ("EPR focuses on the residential sector"), so public and institutional bins can differ. TossGuide's residential mode follows the residential rules; we don't model public sorting stations.
+**Conflict noted:** the City's [Waste Sorting in the Public Space][edm_public] page (City facilities and parks sorting stations) still lists "chip bags/candy wrappers" and "coffee cups" under Garbage. EPR covers the *residential* sector only ("EPR focuses on the residential sector"), so public and institutional bins can differ. TrashifyYEG's residential mode follows the residential rules; we don't model public sorting stations.
 
 ### Other key residential rules
 - **Pizza boxes:** recycling, "remove liner and any food chunks, some grease spots are ok" ([Recycling][edm_recycling]).
@@ -38,7 +38,7 @@ Most online sorting guides (and AI chatbots) still say coffee cups and chip bags
 - Refund: **10¢ for registered containers 1 L or less, 25¢ over 1 L**, based on size only, not material ([BCMB depot compliance][bcmb_refunds]; [Alberta Depot FAQ](https://www.albertadepot.ca/frequently-asked-questions)).
 - Eligible: ready-to-drink beverage containers including cans, bottles, cartons, juice boxes, milk (all types, including dairy alternatives); drink mixes became deposit-bearing July 1, 2025 ([BCMB guide][bcmb_guide]).
 - Not eligible: soup/broth cartons, cooking coconut milk, concentrates that need dilution, infant formula, containers not registered in Alberta ([BCMB guide][bcmb_guide]).
-- TossGuide: beverage containers → **Bottle depot** (primary), with the City-approved alternative "blue bag".
+- TrashifyYEG: beverage containers → **Bottle depot** (primary), with the City-approved alternative "blue bag".
 
 ## 3. University of Alberta campus bins
 Official source found: the **[UofA 4-Stream Zero Waste System cheat sheet][uofa_cheatsheet]** (linked from [How to Recycle][uofa_how_to]; file dated 2021).
@@ -52,7 +52,7 @@ Official source found: the **[UofA 4-Stream Zero Waste System cheat sheet][uofa_
 
 Special streams ([How to Recycle][uofa_how_to]): campus **battery bins** for alkaline, coin-cell and NiCd/NiMH/NiZn (tape 9V+ terminals); **lithium-ion** batteries must never go in battery bins (tape the terminals, email zerowaste@ualberta.ca); pens and markers go to "Pen Recycling" boxes; equipment goes through Surplus Services.
 
-**Campus ≠ home.** Because EPR doesn't cover institutions, campus still sends coffee cups, lids, chip bags, wrappers and foam to **Landfill**, while the same items go in the **blue bag** at home. TossGuide's context toggle shows this live.
+**Campus ≠ home.** Because EPR doesn't cover institutions, campus still sends coffee cups, lids, chip bags, wrappers and foam to **Landfill**, while the same items go in the **blue bag** at home. TrashifyYEG's context toggle shows this live.
 
 **TODO (team):** the cheat sheet is dated 2021. Photograph the actual Zero Waste Station labels in DICE / CCIS to confirm they match, and note any differences in PROGRESS.md.
 

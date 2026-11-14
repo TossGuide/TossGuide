@@ -5,7 +5,7 @@ import { offlinePlugin } from './build/offline-plugin';
 export default defineConfig({
   plugins: [offlinePlugin()],
   resolve: {
-    alias: { '@tossguide/shared': fileURLToPath(new URL('../shared/src', import.meta.url)) },
+    alias: { '@trashifyyeg/shared': fileURLToPath(new URL('../shared/src', import.meta.url)) },
   },
   server: {
     port: 5173,

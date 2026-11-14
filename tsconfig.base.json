@@ -11,6 +11,6 @@
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "paths": { "@tossguide/shared": ["shared/src/index.ts"], "@tossguide/shared/*": ["shared/src/*"] }
+    "paths": { "@trashifyyeg/shared": ["shared/src/index.ts"], "@trashifyyeg/shared/*": ["shared/src/*"] }
   }
 }

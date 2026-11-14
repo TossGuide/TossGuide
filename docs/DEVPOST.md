@@ -1,4 +1,4 @@
-# TossGuide: Devpost draft
+# TrashifyYEG: Devpost draft
 
 **Tagline:** Point. Sort. Done. Which Edmonton bin does it go in, and why, in two seconds.
 
@@ -11,7 +11,7 @@ Standing at a Zero Waste Station in DICE with a coffee cup, nobody knows where i
 
 ## What it does
 
-Point your phone at an item. TossGuide recognizes it on the device and tells you the exact bin, in the City's or UofA's own words and colours, plus a one-line reason, prep steps ("lid off, lid goes in separately") and a link to the official source.
+Point your phone at an item. TrashifyYEG recognizes it on the device and tells you the exact bin, in the City's or UofA's own words and colours, plus a one-line reason, prep steps ("lid off, lid goes in separately") and a link to the official source.
 
 - **Home / Campus toggle:** the same coffee cup goes to the blue bag at home and to Landfill on campus.
 - **Contamination check:** when the rule depends on condition, it asks one yes/no question (greasy pizza box? lithium battery?).
@@ -54,7 +54,7 @@ Point your phone at an item. TossGuide recognizes it on the device and tells you
 
 - Re-run the eval on venue photos and a few-shot k-NN boost for items CLIP confuses.
 - Weigh common items for a fuller CO₂e estimate.
-- QR codes on Zero Waste Stations that open TossGuide in campus mode.
+- QR codes on Zero Waste Stations that open TrashifyYEG in campus mode.
 - More cities as data files: the engine doesn't change, only the cited rules.
 
 ## Built with

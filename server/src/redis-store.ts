@@ -4,14 +4,14 @@
  * so there's nothing extra to install.
  *
  * Only running totals are stored, one Redis hash:
- *   tossguide:leaderboard  { "<faculty>|scans": n, "<faculty>|diverted": n, "<faculty>|co2e": kg }
+ *   trashifyyeg:leaderboard  { "<faculty>|scans": n, "<faculty>|diverted": n, "<faculty>|co2e": kg }
  * CO2e is computed here from the shared impact module when the scan arrives.
  *
  * Env (Vercel's Upstash integration sets these): KV_REST_API_URL + KV_REST_API_TOKEN,
  * or UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN.
  */
-import { impactOf } from '@tossguide/shared/impact/impact';
-import type { DestinationId } from '@tossguide/shared/rules/types';
+import { impactOf } from '@trashifyyeg/shared/impact/impact';
+import type { DestinationId } from '@trashifyyeg/shared/rules/types';
 import type { FacultyTotals, LeaderboardStore, StoredScan } from './store';
 
 export interface RedisOptions {
@@ -31,7 +31,7 @@ export class RedisStore implements LeaderboardStore {
   private readonly fetch: typeof fetch;
 
   constructor(private readonly opts: RedisOptions) {
-    this.key = opts.key ?? 'tossguide:leaderboard';
+    this.key = opts.key ?? 'trashifyyeg:leaderboard';
     this.fetch = opts.fetch ?? fetch;
   }
 

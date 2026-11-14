@@ -15,7 +15,7 @@ import path from 'node:path';
 const PORT = 4173;
 // A fresh leaderboard file per run, so every run starts from an empty board. The test server
 // ignores .env, so it never uses the real database (DATABASE_URL) on a deployed machine.
-const DATA_FILE = path.join(os.tmpdir(), `tossguide-e2e-${Date.now()}.json`);
+const DATA_FILE = path.join(os.tmpdir(), `trashifyyeg-e2e-${Date.now()}.json`);
 const headless = process.env.HEADLESS === '1';
 
 export default defineConfig({
@@ -49,7 +49,7 @@ export default defineConfig({
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
   ],
   webServer: {
-    command: `npm run build:test && TOSSGUIDE_IGNORE_ENV_FILE=1 PORT=${PORT} DATA_FILE=${DATA_FILE} npm start -w server`,
+    command: `npm run build:test && TRASHIFYYEG_IGNORE_ENV_FILE=1 PORT=${PORT} DATA_FILE=${DATA_FILE} npm start -w server`,
     url: `http://localhost:${PORT}/api/health`,
     reuseExistingServer: false,
     timeout: 180_000,

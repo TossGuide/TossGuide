@@ -35,7 +35,7 @@ test('camera keeps working after "Scan another", and permission is asked only on
   await expectPreviewLive(page);
 
   for (let i = 0; i < 3; i++) {
-    await page.evaluate(() => (window as any).__tossguide.useStub([{ itemId: 'pop_can', score: 0.97 }]));
+    await page.evaluate(() => (window as any).__trashifyyeg.useStub([{ itemId: 'pop_can', score: 0.97 }]));
     await page.getByRole('button', { name: 'Scan item' }).click();
     await expect(page.locator('.result')).toBeVisible();
     await page.getByRole('button', { name: 'Scan another' }).click();

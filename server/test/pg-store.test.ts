@@ -1,12 +1,12 @@
 // PgStore against a REAL PostgreSQL database. Skipped unless TEST_DATABASE_URL is set,
 // so `npm test` works on laptops without Postgres. On the server:
-//   TEST_DATABASE_URL=postgres://tossguide:...@127.0.0.1/tossguide_test npx vitest run server/test/pg-store.test.ts
+//   TEST_DATABASE_URL=postgres://trashifyyeg:...@127.0.0.1/trashifyyeg_test npx vitest run server/test/pg-store.test.ts
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
 import pg from 'pg';
 import { PgStore } from '../src/pg-store';
 import { createApp } from '../src/app';
-import { impactOf } from '@tossguide/shared/impact/impact';
+import { impactOf } from '@trashifyyeg/shared/impact/impact';
 
 const URL = process.env.TEST_DATABASE_URL;
 

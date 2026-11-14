@@ -1,5 +1,5 @@
 /**
- * TossGuide leaderboard API. Tiny on purpose: the app works without it.
+ * TrashifyYEG leaderboard API. Tiny on purpose: the app works without it.
  *
  *   GET  /api/health       -> { ok: true }
  *   POST /api/scan         -> records { faculty, itemId, destination, divertedFromLandfill }
@@ -13,11 +13,11 @@ import express, { type ErrorRequestHandler, type Request } from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
-import { FACULTIES } from '@tossguide/shared/faculties';
-import { DESTINATIONS } from '@tossguide/shared/rules/destinations';
-import { possibleDestinations } from '@tossguide/shared/rules/engine';
-import { getItem } from '@tossguide/shared/rules/items';
-import { CONTEXTS, type DestinationId } from '@tossguide/shared/rules/types';
+import { FACULTIES } from '@trashifyyeg/shared/faculties';
+import { DESTINATIONS } from '@trashifyyeg/shared/rules/destinations';
+import { possibleDestinations } from '@trashifyyeg/shared/rules/engine';
+import { getItem } from '@trashifyyeg/shared/rules/items';
+import { CONTEXTS, type DestinationId } from '@trashifyyeg/shared/rules/types';
 import { createRateLimiter, type RateLimitOptions } from './rate-limit';
 import { ScanStore, totalsFromScans, type LeaderboardStore } from './store';
 
