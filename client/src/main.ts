@@ -22,12 +22,15 @@ import { icon } from './ui/icons';
 import { FACULTIES } from '@binsight/shared/faculties';
 import { countResult, EMPTY_TALLY_STATE, formatCo2, sanitize, type TallyState } from './lib/tally';
 import { flushOutbox, getLeaderboard, postScan, type Leaderboard, type ScanPayload } from './lib/api';
+import { aboutScreen } from './ui/about';
+import { sound } from './lib/sound';
+import { canSpeak, speak } from './lib/speech';
 
 // ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
 
-type Screen = 'scan' | 'thinking' | 'question' | 'picker' | 'result' | 'type' | 'impact';
+type Screen = 'scan' | 'thinking' | 'question' | 'picker' | 'result' | 'type' | 'impact' | 'about';
 type FinalResult = Extract<Result, { status: 'final' }>;
 type QuestionResult = Extract<Result, { status: 'needs_answer' }>;
 
@@ -66,7 +69,12 @@ const state = {
   correcting: null as string | null,
   /** What the last result did to the tally (shown on the result card). */
   lastCount: null as { diverted: boolean; replaced: boolean } | null,
+  soundOn: loadStored<boolean>('binsight.sound', false, (v): v is boolean => typeof v === 'boolean'),
+  offlineReady: false,
 };
+// Browsers block audio until a user gesture, so a saved "sound on" takes effect on the first tap.
+for (const ev of ['pointerdown', 'keydown'] as const)
+  document.addEventListener(ev, () => (sound.enabled = state.soundOn), { once: true, capture: true });
 
 /** Called on every final answer. Phase 2 hooks the impact tally + leaderboard in here. */
 const finalResultListeners: ((r: FinalResult, p: Pending) => void)[] = [];
@@ -243,6 +251,8 @@ onFinalResult((r, p) => {
   const { state: next, replaced, diverted } = countResult(state.tally, p.scanId, r.itemId, r.destination.id);
   state.tally = next;
   state.lastCount = { diverted, replaced };
+  sound.bin(r.destination.id);
+  if (diverted && !replaced) sound.collect(next.streak);
   saveStored('binsight.tally', next);
   if (state.faculty) {
     pendingPost = {
@@ -285,6 +295,7 @@ function topbar() {
   return `
   <header class="topbar">
     <div class="logo"><img class="logo-mark" src="/favicon.svg" alt="" />BinSight</div>
+    <button type="button" class="icon-btn" data-action="sound" aria-pressed="${state.soundOn}" aria-label="Sound effects">${icon(state.soundOn ? 'sound' : 'mute', 22)}</button>
     <div class="context-toggle" role="group" aria-label="Sorting rules">
       ${CONTEXTS.map(
         (c) =>
@@ -322,6 +333,7 @@ function scanScreen() {
     <div class="viewport" id="viewport">
       ${camMsg}
       <span class="privacy-chip">${icon('lock', 14)} Your photo stays on your phone</span>
+      ${state.offlineReady && ready ? `<span class="offline-chip">${icon('check', 14)} Works offline</span>` : ''}
     </div>
     ${modelBox}
     <div class="controls">
@@ -374,8 +386,8 @@ function pickerScreen() {
       <div class="choices">
         ${candidates
           .map(
-            (c) =>
-              `<button type="button" class="choice" data-action="pick" data-item="${esc(c.itemId)}">${esc(itemName(c.itemId))}${state.picker.from === 'camera' ? `<small>${pct(c.score)}</small>` : ''}</button>`,
+            (c, i) =>
+              `<button type="button" class="choice${i === 0 && state.picker.from === 'camera' ? ' best' : ''}" data-action="pick" data-item="${esc(c.itemId)}">${esc(itemName(c.itemId))}${state.picker.from === 'camera' ? `<small>${i === 0 ? 'best guess · ' : ''}${pct(c.score)}</small>` : ''}</button>`,
           )
           .join('')}
       </div>
@@ -437,6 +449,7 @@ function resultScreen() {
         <button type="button" class="btn" data-action="not-right">Not right?</button>
         <button type="button" class="btn primary" data-action="home">${icon('camera', 20)} Scan another</button>
       </div>
+      ${canSpeak() ? `<button type="button" class="link-btn" data-action="speak">${icon('sound', 18)} Read it out loud</button>` : ''}
     </div>
   </section>`;
 }
@@ -455,8 +468,9 @@ function tabbar() {
   const tabs: [Screen, string, Parameters<typeof icon>[0], string][] = [
     ['scan', 'Scan', 'camera', 'home'],
     ['impact', 'Impact', 'chart', 'impact'],
+    ['about', 'About', 'info', 'about'],
   ];
-  const current: Screen = state.screen === 'impact' ? 'impact' : 'scan';
+  const current: Screen = state.screen === 'impact' || state.screen === 'about' ? state.screen : 'scan';
   return `<nav class="tabbar" aria-label="Main">${tabs
     .map(
       ([scr, label, ic, action]) =>
@@ -519,6 +533,7 @@ function render() {
     result: resultScreen,
     type: typeScreen,
     impact: impactScreen,
+    about: aboutScreen,
   };
   $app.innerHTML = `<div class="app">${topbar()}<main class="main" id="main">${screens[state.screen]()}</main>${tabbar()}</div>`;
 
@@ -571,6 +586,23 @@ $app.addEventListener('click', (e) => {
       sendPendingPost();
       openImpact();
       break;
+    case 'about':
+      state.correcting = null;
+      sendPendingPost();
+      go('about');
+      break;
+    case 'sound':
+      state.soundOn = !state.soundOn;
+      sound.enabled = state.soundOn;
+      saveStored('binsight.sound', state.soundOn);
+      if (state.soundOn) sound.bin('edm_blue_bag'); // a preview, so you know it's on
+      render();
+      break;
+    case 'speak': {
+      const r = state.result;
+      if (r) speak(`${r.itemName}. ${r.destination.name}. ${r.reason} ${r.prep.join('. ')}`);
+      break;
+    }
     case 'refresh-leaderboard':
       void refreshLeaderboard();
       break;
@@ -701,7 +733,14 @@ void flushOutbox();
 // generated by build/offline-plugin.ts). Registering it is best-effort.
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => undefined);
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(() => navigator.serviceWorker.ready)
+      .then(() => {
+        state.offlineReady = true;
+        if (state.screen === 'scan') render();
+      })
+      .catch(() => undefined);
   });
 }
 render();
