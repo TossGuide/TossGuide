@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     port: 5173,
     // The tiny leaderboard backend (server/) runs on 8787 in dev.
-    proxy: { '/api': 'http://localhost:8787' },
+    proxy: { '/api': `http://localhost:${process.env.API_PORT || 8787}` },
   },
   worker: { format: 'es' },
   // Transformers.js ships its own WASM; don't let Vite pre-bundle it.
