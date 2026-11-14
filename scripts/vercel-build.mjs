@@ -16,9 +16,25 @@ import { join } from 'node:path';
 import { build } from 'esbuild';
 
 const OUT = '.vercel/output';
-const BACKEND_URL = (process.env.BACKEND_URL || '').trim().replace(/\/+$/, '');
-if (BACKEND_URL && !/^https?:\/\/[^/\s]+$/.test(BACKEND_URL)) {
-  console.error(`BACKEND_URL must look like https://host or http://host:port (got "${BACKEND_URL}")`);
+/**
+ * BACKEND_URL as people actually type it into Vercel: tolerate quotes, spaces, a missing
+ * http://, and a trailing "/" or "/api". Ends up as "http(s)://host[:port]".
+ */
+export function normalizeBackendUrl(raw = '') {
+  let v = String(raw).trim().replace(/^["']+|["']+$/g, '').trim();
+  if (!v) return '';
+  if (!/^https?:\/\//i.test(v)) v = `http://${v}`;
+  v = v.replace(/\/+$/, '').replace(/\/api$/i, '').replace(/\/+$/, '');
+  return /^https?:\/\/[^/\s]+$/i.test(v) ? v : null;
+}
+
+const BACKEND_URL = normalizeBackendUrl(process.env.BACKEND_URL);
+if (BACKEND_URL === null) {
+  console.error(
+    `\nBACKEND_URL is set to "${process.env.BACKEND_URL}", which isn't a server address.\n` +
+      'Set it in Vercel (Settings -> Environment Variables) to something like http://203.0.113.5:8080\n' +
+      'or https://your-tunnel.trycloudflare.com, or delete it to use the built-in serverless API.\n',
+  );
   process.exit(1);
 }
 const run = (cmd) => execSync(cmd, { stdio: 'inherit', env: { ...process.env, VITE_TEST_HOOK: '' } });
