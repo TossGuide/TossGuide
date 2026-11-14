@@ -26,3 +26,28 @@ test('@real-model offline: after one visit, the app and model work with no netwo
   await page.getByRole('button', { name: 'Impact', exact: true }).click();
   await expect(page.getByText('Leaderboard offline.')).toBeVisible();
 });
+
+test('the install manifest is never stuck on an old cached copy (app name after a rename)', async ({ page, context }) => {
+  await page.goto('/?stub=1');
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller)
+      await new Promise((r) => navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }));
+  });
+  // Plant a stale manifest (an old app name) in the offline cache, as an old version would have.
+  await page.evaluate(async () => {
+    const name = (await caches.keys()).find((k) => k.startsWith('trashifyyeg-shell-'))!;
+    const stale = new Response(JSON.stringify({ name: 'TossGuide', short_name: 'TossGuide' }), {
+      headers: { 'Content-Type': 'application/manifest+json' },
+    });
+    await (await caches.open(name)).put('/manifest.webmanifest', stale);
+  });
+  const online = await page.evaluate(() => fetch('/manifest.webmanifest').then((r) => r.json()));
+  expect(online.short_name).toBe('TrashifyYEG');
+
+  // Offline it still answers, from the copy the online fetch just refreshed.
+  await context.setOffline(true);
+  const offline = await page.evaluate(() => fetch('/manifest.webmanifest').then((r) => r.json()));
+  expect(offline.short_name).toBe('TrashifyYEG');
+  await context.setOffline(false);
+});
