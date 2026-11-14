@@ -59,7 +59,7 @@ In a real Chromium browser on a laptop, the model loaded in ~8 s on first visit 
 
 ## Run it
 
-Requires Node 20+.
+Requires Node 22+.
 
 ```bash
 npm install
