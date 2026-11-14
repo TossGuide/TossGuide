@@ -490,7 +490,7 @@ function leaderboardBlock() {
   return `<ol class="board" aria-label="Faculty leaderboard">${lb.rows
     .map(
       (r, i) => `<li ${r.faculty === state.faculty ? 'class="mine"' : ''}>
-        <div class="board-row"><span class="rank">${i + 1}</span><span class="board-name">${esc(r.faculty)}</span><span class="board-num">${r.itemsDiverted} <small>item${r.itemsDiverted === 1 ? '' : 's'}</small></span></div>
+        <div class="board-row"><span class="rank">${i + 1}</span><span class="board-name">${esc(r.faculty)}${r.faculty === state.faculty ? '<span class="you"> (you)</span>' : ''}</span><span class="board-num">${r.itemsDiverted} <small>item${r.itemsDiverted === 1 ? '' : 's'}</small></span></div>
         <div class="bar" aria-hidden="true"><span style="width:${((r.itemsDiverted / max) * 100).toFixed(1)}%"></span></div>
         <div class="board-sub">${formatCo2(r.co2eKg)} CO₂e est. · ${r.scans} scan${r.scans === 1 ? '' : 's'}</div>
       </li>`,
