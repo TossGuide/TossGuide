@@ -110,13 +110,36 @@ const CONTEXT_LABEL: Record<Context, string> = { 'edmonton-residential': 'Home',
 const video = document.createElement('video');
 video.playsInline = true;
 video.muted = true;
+video.autoplay = true;
 video.setAttribute('aria-label', 'Camera preview');
 let stream: MediaStream | null = null;
 
+/** Is the stream we already have still delivering frames? */
+const cameraAlive = () => !!stream && stream.getVideoTracks().some((t) => t.readyState === 'live');
+
+/** Forget a dead stream (tracks ended: phone locked, another app took the camera...). */
+function dropStream() {
+  stream?.getTracks().forEach((t) => t.stop());
+  stream = null;
+  video.srcObject = null;
+  state.camera.status = 'idle';
+}
+
+/**
+ * Ask for the camera ONCE per visit and keep that stream for every scan. Browsers pause a
+ * <video> that's taken out of the page (which happens on every result screen), so when it's
+ * put back we just press play again. That's what fixes the black preview after
+ * "Scan another", and it means no new permission prompt. We only ask again if the
+ * stream really died.
+ */
 async function startCamera() {
-  // Only try once per page load: re-asking after a denial or a missing camera would
-  // re-render forever (render() calls startCamera()).
-  if (stream || state.camera.status !== 'idle') return;
+  if (stream && !cameraAlive()) dropStream();
+  if (stream) {
+    if (video.paused) await video.play().catch(() => undefined);
+    return;
+  }
+  // Don't retry after a denial or a missing camera (render() calls startCamera()).
+  if (state.camera.status !== 'idle') return;
   if (!navigator.mediaDevices?.getUserMedia) {
     state.camera.status = 'unavailable';
     return render();
@@ -127,6 +150,11 @@ async function startCamera() {
       video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 1280 } },
       audio: false,
     });
+    for (const t of stream.getVideoTracks())
+      t.addEventListener('ended', () => {
+        dropStream();
+        if (state.screen === 'scan') render();
+      });
     video.srcObject = stream;
     await video.play().catch(() => undefined);
     state.camera.status = 'live';
@@ -136,6 +164,11 @@ async function startCamera() {
   }
   if (state.screen === 'scan') render();
 }
+
+// Coming back to the app (after switching apps or unlocking): resume the preview.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && state.screen === 'scan') void startCamera();
+});
 
 // ---------------------------------------------------------------------------
 // Flow
