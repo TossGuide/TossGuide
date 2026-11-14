@@ -32,7 +32,7 @@ await build({
   outfile: join(fn, 'index.js'),
   bundle: true,
   platform: 'node',
-  target: 'node20',
+  target: 'node22',
   format: 'cjs',
   footer: { js: 'module.exports = module.exports.default;' },
   logLevel: 'info',
@@ -41,7 +41,7 @@ await build({
 writeFileSync(join(fn, 'package.json'), '{ "type": "commonjs" }\n');
 writeFileSync(
   join(fn, '.vc-config.json'),
-  JSON.stringify({ runtime: 'nodejs20.x', handler: 'index.js', launcherType: 'Nodejs', shouldAddHelpers: false }, null, 2),
+  JSON.stringify({ runtime: 'nodejs22.x', handler: 'index.js', launcherType: 'Nodejs', shouldAddHelpers: false }, null, 2),
 );
 
 // 3) Routing: API -> function; real files; everything else -> index.html (single-page app).
